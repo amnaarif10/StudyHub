@@ -29,6 +29,9 @@
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+    body,.sidebar,.topbar,.card,.icon-btn,.quick,.date-pill,.top-search input{
+      transition:background-color .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease;
+    }
     button,input{font:inherit} button{cursor:pointer} a{text-decoration:none;color:inherit}
     .app{min-height:100vh}
     .sidebar{
@@ -431,21 +434,45 @@
 
   renderStats(); renderFocus(); renderDocuments(); renderNotes(); renderUpcoming(); renderChart();
 
-  // Theme persists across the StudyHub pages.
+  // Theme persists across StudyHub pages.
   const root = document.documentElement;
-  const savedTheme = localStorage.getItem("studyhub-theme");
-  if (savedTheme === "dark" || (!savedTheme && matchMedia("(prefers-color-scheme: dark)").matches)) root.classList.add("dark");
+  const themeBtn = $("themeBtn");
+
+  function getSavedTheme() {
+    try { return localStorage.getItem("studyhub-theme"); }
+    catch (e) { return null; }
+  }
+
+  function setTheme(theme) {
+    root.classList.toggle("dark", theme === "dark");
+    try { localStorage.setItem("studyhub-theme", theme); } catch (e) {}
+    updateTheme();
+  }
 
   function updateTheme() {
     const dark = root.classList.contains("dark");
-    $("themeBtn").innerHTML = dark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-    $("themeBtn").title = dark ? "Switch to light mode" : "Switch to dark mode";
+    themeBtn.innerHTML = dark
+      ? '<i class="fa-solid fa-sun" aria-hidden="true"></i>'
+      : '<i class="fa-solid fa-moon" aria-hidden="true"></i>';
+    themeBtn.title = dark ? "Switch to light mode" : "Switch to dark mode";
+    themeBtn.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
   }
+
+  const savedTheme = getSavedTheme();
+  if (savedTheme === "dark") {
+    root.classList.add("dark");
+  } else if (savedTheme === "light") {
+    root.classList.remove("dark");
+  } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    root.classList.add("dark");
+  }
+
   updateTheme();
-  $("themeBtn").addEventListener("click", () => {
-    root.classList.toggle("dark");
-    localStorage.setItem("studyhub-theme", root.classList.contains("dark") ? "dark" : "light");
-    updateTheme();
+
+  themeBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    const nextTheme = root.classList.contains("dark") ? "light" : "dark";
+    setTheme(nextTheme);
   });
 
   // Mobile sidebar.
