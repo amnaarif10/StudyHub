@@ -307,11 +307,16 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
+  <script>
 (() => {
   const $ = (id) => document.getElementById(id);
   const read = (key, fallback) => {
-    try { const value = JSON.parse(localStorage.getItem(key)); return value ?? fallback; }
-    catch { return fallback; }
+    try { 
+      const value = JSON.parse(localStorage.getItem(key)); 
+      return value ?? fallback; 
+    } catch { 
+      return fallback; 
+    }
   };
   const write = (key, value) => localStorage.setItem(key, JSON.stringify(value));
 
@@ -344,97 +349,127 @@
     return read(key, demoData[key]);
   }
 
-  const documents = seed("studyhub-documents");
-  const notes = seed("studyhub-notes");
-  const tasks = seed("studyhub-tasks");
-  const events = seed("studyhub-events");
-  const productivity = seed("studyhub-productivity");
+  // Safe Array Ensure karein (Agar Null ho toh empty array [] le le)
+  const documents = Array.isArray(seed("studyhub-documents")) ? seed("studyhub-documents") : demoData.documents;
+  const notes = Array.isArray(seed("studyhub-notes")) ? seed("studyhub-notes") : demoData.notes;
+  const tasks = Array.isArray(seed("studyhub-tasks")) ? seed("studyhub-tasks") : demoData.tasks;
+  const events = Array.isArray(seed("studyhub-events")) ? seed("studyhub-events") : demoData.events;
+  const productivity = Array.isArray(seed("studyhub-productivity")) ? seed("studyhub-productivity") : demoData.productivity;
 
   const profile = read("studyhub-user", {name:"Alex Khan"});
   const fullName = profile.name || "Alex Khan";
   const firstName = fullName.trim().split(/\s+/)[0] || "Student";
   const initials = fullName.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
 
-  ["sideName","topName"].forEach(id => $(id).textContent = fullName);
-  $("welcomeName").textContent = firstName;
-  ["sideAvatar","topAvatar"].forEach(id => $(id).textContent = initials);
+  ["sideName","topName"].forEach(id => { if($(id)) $(id).textContent = fullName; });
+  if($("welcomeName")) $("welcomeName").textContent = firstName;
+  ["sideAvatar","topAvatar"].forEach(id => { if($(id)) $(id).textContent = initials; });
 
   const date = new Date();
-  $("todayDate").textContent = date.toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric", year:"numeric"});
+  if($("todayDate")) $("todayDate").textContent = date.toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric", year:"numeric"});
 
+  // SAFELY FIXED: Optional chaining & array fallbacks taake length pe crash na ho
   function renderStats() {
-    const pending = tasks.filter(t => t.status !== "done").length;
-    const completed = tasks.filter(t => t.status === "done").length;
-    const upcoming = events.length;
+    const safeTasks = Array.isArray(tasks) ? tasks : [];
+    const safeDocs = Array.isArray(documents) ? documents : [];
+    const safeNotes = Array.isArray(notes) ? notes : [];
+    const safeEvents = Array.isArray(events) ? events : [];
+
+    const pending = safeTasks.filter(t => t?.status !== "done").length;
+    const completed = safeTasks.filter(t => t?.status === "done").length;
+    const upcoming = safeEvents.length;
+
     const stats = [
-      ["fa-folder-open","Total Documents",documents.length,""],
-      ["fa-note-sticky","Total Notes",notes.length,""],
+      ["fa-folder-open","Total Documents",safeDocs.length,""],
+      ["fa-note-sticky","Total Notes",safeNotes.length,""],
       ["fa-list-check","Pending Tasks",pending,""],
       ["fa-circle-check","Completed Tasks",completed,""],
       ["fa-calendar-days","Upcoming Events",upcoming,""]
     ];
-    $("statsGrid").innerHTML = stats.map(s => `
-      <div class="card stat">
-        <div class="stat-head"><div class="stat-icon"><i class="fa-regular ${s[0]}"></i></div></div>
-        <div class="stat-value">${s[2]}</div><div class="stat-label">${s[1]}</div>
-      </div>`).join("");
+
+    if($("statsGrid")) {
+      $("statsGrid").innerHTML = stats.map(s => `
+        <div class="card stat">
+          <div class="stat-head"><div class="stat-icon"><i class="fa-regular ${s[0]}"></i></div></div>
+          <div class="stat-value">${s[2]}</div><div class="stat-label">${s[1]}</div>
+        </div>`).join("");
+    }
   }
 
   function renderFocus() {
-    const items = tasks.slice(0,4);
-    $("focusList").innerHTML = items.length ? items.map(t => `
-      <div class="focus-item">
-        <div class="check ${t.status==="done"?"done":""}">${t.status==="done"?'<i class="fa-solid fa-check"></i>':""}</div>
-        <div class="item-main"><strong>${escapeHtml(t.title)}</strong><span>${escapeHtml(t.meta || "")}</span></div>
-        <span class="tag ${t.status==="done"?"success":""}">${escapeHtml(t.priority || "Task")}</span>
-      </div>`).join("") : '<div class="empty">No tasks for today.</div>';
+    const safeTasks = Array.isArray(tasks) ? tasks : [];
+    const items = safeTasks.slice(0,4);
+    if($("focusList")) {
+      $("focusList").innerHTML = items.length ? items.map(t => `
+        <div class="focus-item">
+          <div class="check ${t?.status==="done"?"done":""}">${t?.status==="done"?'<i class="fa-solid fa-check"></i>':""}</div>
+          <div class="item-main"><strong>${escapeHtml(t?.title)}</strong><span>${escapeHtml(t?.meta || "")}</span></div>
+          <span class="tag ${t?.status==="done"?"success":""}">${escapeHtml(t?.priority || "Task")}</span>
+        </div>`).join("") : '<div class="empty">No tasks for today.</div>';
+    }
   }
 
   function renderDocuments() {
-    $("documentList").innerHTML = documents.slice(0,4).map(d => `
-      <a class="doc-item" href="documents.html">
-        <div class="doc-icon"><i class="fa-regular ${escapeHtml(d.icon || "fa-file")}"></i></div>
-        <div class="item-main"><strong>${escapeHtml(d.name)}</strong><span>${escapeHtml(d.type || "File")} · ${escapeHtml(d.size || "")} · ${escapeHtml(d.date || "")}</span></div>
-        <i class="fa-solid fa-chevron-right" style="font-size:8px;color:var(--muted)"></i>
-      </a>`).join("") || '<div class="empty">No documents yet.</div>';
+    const safeDocs = Array.isArray(documents) ? documents : [];
+    if($("documentList")) {
+      $("documentList").innerHTML = safeDocs.slice(0,4).map(d => `
+        <a class="doc-item" href="documents.html">
+          <div class="doc-icon"><i class="fa-regular ${escapeHtml(d?.icon || "fa-file")}"></i></div>
+          <div class="item-main"><strong>${escapeHtml(d?.name)}</strong><span>${escapeHtml(d?.type || "File")} · ${escapeHtml(d?.size || "")} · ${escapeHtml(d?.date || "")}</span></div>
+          <i class="fa-solid fa-chevron-right" style="font-size:8px;color:var(--muted)"></i>
+        </a>`).join("") || '<div class="empty">No documents yet.</div>';
+    }
   }
 
   function renderNotes() {
-    $("noteList").innerHTML = notes.slice(0,4).map(n => `
-      <a class="note-item" href="notes.html">
-        <div class="note-icon"><i class="fa-regular fa-note-sticky"></i></div>
-        <div class="item-main"><strong>${escapeHtml(n.title || n.name || "Untitled note")}</strong><span>${escapeHtml(n.meta || "Recently updated")}</span></div>
-        <i class="fa-solid fa-chevron-right" style="font-size:8px;color:var(--muted)"></i>
-      </a>`).join("") || '<div class="empty">No notes yet.</div>';
+    const safeNotes = Array.isArray(notes) ? notes : [];
+    if($("noteList")) {
+      $("noteList").innerHTML = safeNotes.slice(0,4).map(n => `
+        <a class="note-item" href="notes.html">
+          <div class="note-icon"><i class="fa-regular fa-note-sticky"></i></div>
+          <div class="item-main"><strong>${escapeHtml(n?.title || n?.name || "Untitled note")}</strong><span>${escapeHtml(n?.meta || "Recently updated")}</span></div>
+          <i class="fa-solid fa-chevron-right" style="font-size:8px;color:var(--muted)"></i>
+        </a>`).join("") || '<div class="empty">No notes yet.</div>';
+    }
   }
 
   function renderUpcoming() {
-    const upcoming = tasks.filter(t => t.status !== "done").slice(0,4);
-    $("upcomingList").innerHTML = upcoming.map(t => `
-      <a class="task-item" href="tasks.html">
-        <div class="check"></div>
-        <div class="item-main"><strong>${escapeHtml(t.title)}</strong><span>${escapeHtml(t.meta || "Upcoming")}</span></div>
-        <span class="tag ${t.priority==="High"?"warning":""}">${escapeHtml(t.priority || "Task")}</span>
-      </a>`).join("") || '<div class="empty">No upcoming tasks.</div>';
+    const safeTasks = Array.isArray(tasks) ? tasks : [];
+    const upcoming = safeTasks.filter(t => t?.status !== "done").slice(0,4);
+    if($("upcomingList")) {
+      $("upcomingList").innerHTML = upcoming.map(t => `
+        <a class="task-item" href="tasks.html">
+          <div class="check"></div>
+          <div class="item-main"><strong>${escapeHtml(t?.title)}</strong><span>${escapeHtml(t?.meta || "Upcoming")}</span></div>
+          <span class="tag ${t?.priority==="High"?"warning":""}">${escapeHtml(t?.priority || "Task")}</span>
+        </a>`).join("") || '<div class="empty">No upcoming tasks.</div>';
+    }
   }
 
   function renderChart() {
     const values = Array.isArray(productivity) && productivity.length ? productivity : demoData.productivity;
     const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-    $("chart").innerHTML = values.slice(-7).map((v,i) => `
-      <div class="bar-col" title="${v}% productivity"><div class="bar" style="height:${Math.max(8,Math.min(100,Number(v)||0))}%"></div><span class="day">${days[i] || ""}</span></div>
-    `).join("");
+    if($("chart")) {
+      $("chart").innerHTML = values.slice(-7).map((v,i) => `
+        <div class="bar-col" title="${v}% productivity"><div class="bar" style="height:${Math.max(8,Math.min(100,Number(v)||0))}%"></div><span class="day">${days[i] || ""}</span></div>
+      `).join("");
+    }
     const avg = Math.round(values.reduce((a,b)=>a+Number(b||0),0)/values.length);
-    $("weeklyAverage").textContent = avg + "%";
+    if($("weeklyAverage")) $("weeklyAverage").textContent = avg + "%";
   }
 
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
   }
 
-  renderStats(); renderFocus(); renderDocuments(); renderNotes(); renderUpcoming(); renderChart();
+  renderStats(); 
+  renderFocus(); 
+  renderDocuments(); 
+  renderNotes(); 
+  renderUpcoming(); 
+  renderChart();
 
-  // Theme persists across StudyHub pages.
+  // Theme logic
   const root = document.documentElement;
   const themeBtn = $("themeBtn");
 
@@ -450,6 +485,7 @@
   }
 
   function updateTheme() {
+    if(!themeBtn) return;
     const dark = root.classList.contains("dark");
     themeBtn.innerHTML = dark
       ? '<i class="fa-solid fa-sun" aria-hidden="true"></i>'
@@ -469,45 +505,59 @@
 
   updateTheme();
 
-  themeBtn.addEventListener("click", (event) => {
-    event.preventDefault();
-    const nextTheme = root.classList.contains("dark") ? "light" : "dark";
-    setTheme(nextTheme);
-  });
+  if(themeBtn) {
+    themeBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      const nextTheme = root.classList.contains("dark") ? "light" : "dark";
+      setTheme(nextTheme);
+    });
+  }
 
-  // Mobile sidebar.
+  // Mobile sidebar
   const sidebar = $("sidebar"), overlay = $("overlay");
-  function closeMenu(){sidebar.classList.remove("open");overlay.classList.remove("show")}
-  $("menuBtn").addEventListener("click", () => {sidebar.classList.add("open");overlay.classList.add("show")});
-  overlay.addEventListener("click", closeMenu);
+  function closeMenu(){ if(sidebar) sidebar.classList.remove("open"); if(overlay) overlay.classList.remove("show"); }
+  if($("menuBtn")) $("menuBtn").addEventListener("click", () => { if(sidebar) sidebar.classList.add("open"); if(overlay) overlay.classList.add("show"); });
+  if(overlay) overlay.addEventListener("click", closeMenu);
 
-  // Global search: submits to the dedicated search page.
-  $("searchForm").addEventListener("submit", e => {
-    const q = $("globalSearch").value.trim();
-    if (!q) { e.preventDefault(); location.href = "search.html"; }
-  });
+  // Global search
+  if($("searchForm")) {
+    $("searchForm").addEventListener("submit", e => {
+      const q = $("globalSearch") ? $("globalSearch").value.trim() : "";
+      if (!q) { e.preventDefault(); location.href = "search.html"; }
+    });
+  }
 
-  $("focusLink").addEventListener("click", () => location.href = "tasks.html");
+  if($("focusLink")) $("focusLink").addEventListener("click", () => location.href = "tasks.html");
 
-  // Notifications: real local notification summary rather than a decorative button.
-  $("notificationBtn").addEventListener("click", () => {
-    const pending = tasks.filter(t => t.status !== "done").length;
-    const message = pending ? `You have ${pending} pending task${pending===1?"":"s"} to review.` : "You’re all caught up — no pending tasks.";
-    showToast(message);
-    $("notificationDot").style.display = "none";
-    localStorage.setItem("studyhub-notifications-seen","true");
-  });
-  if (localStorage.getItem("studyhub-notifications-seen")==="true") $("notificationDot").style.display="none";
+  // Notifications
+  if($("notificationBtn")) {
+    $("notificationBtn").addEventListener("click", () => {
+      const safeTasks = Array.isArray(tasks) ? tasks : [];
+      const pending = safeTasks.filter(t => t?.status !== "done").length;
+      const message = pending ? `You have ${pending} pending task${pending===1?"":"s"} to review.` : "You’re all caught up — no pending tasks.";
+      showToast(message);
+      if($("notificationDot")) $("notificationDot").style.display = "none";
+      localStorage.setItem("studyhub-notifications-seen","true");
+    });
+  }
+  if (localStorage.getItem("studyhub-notifications-seen")==="true" && $("notificationDot")) {
+    $("notificationDot").style.display="none";
+  }
 
-  // Quick actions navigate to the corresponding integrated page.
+  // Quick actions
   const routes = {upload:"documents.html?action=upload",note:"notes.html?action=create",task:"tasks.html?action=add",event:"calendar.html?action=add"};
   document.querySelectorAll("[data-action]").forEach(btn => btn.addEventListener("click", () => location.href = routes[btn.dataset.action]));
 
   function showToast(message) {
-    const toast=$("toast"); toast.textContent=message; toast.classList.add("show");
-    clearTimeout(window.__toast); window.__toast=setTimeout(()=>toast.classList.remove("show"),2600);
+    const toast=$("toast"); 
+    if(!toast) return;
+    toast.textContent=message; 
+    toast.classList.add("show");
+    clearTimeout(window.__toast); 
+    window.__toast=setTimeout(()=>toast.classList.remove("show"),2600);
   }
 })();
+</script>
 </script>
 </body>
 </html>
