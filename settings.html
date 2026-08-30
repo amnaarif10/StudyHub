@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="StudyHub settings and preferences.">
+<title>StudyHub — Settings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root{--primary:#5b35d5;--violet:#8b6ff0;--violet-soft:#eee9ff;--bg:#f7f7fb;--surface:#fff;--surface-2:#faf9ff;--text:#17172a;--muted:#6b6b7d;--border:#e8e7ef;--danger:#c24d5a;--warning:#b97819;--success:#23855d;--sidebar:248px;--topbar:72px;--shadow:0 18px 50px rgba(38,27,92,.10);--shadow-soft:0 7px 25px rgba(38,27,92,.06)}
+html.dark{--bg:#0c1020;--surface:#13182a;--surface-2:#171d31;--text:#f5f5fb;--muted:#a7aac0;--border:#292f46;--violet-soft:#272044;--shadow:0 18px 50px rgba(0,0,0,.30);--shadow-soft:0 8px 25px rgba(0,0,0,.22)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}button,input{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
+.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);padding:20px 15px;background:var(--surface);border-right:1px solid var(--border);z-index:100;display:flex;flex-direction:column;transition:transform .25s}.brand{display:flex;align-items:center;gap:10px;padding:5px 10px 30px;font-weight:800;font-size:19px;letter-spacing:-.04em}.brand-mark{width:35px;height:35px;display:grid;place-items:center;border-radius:11px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--violet));box-shadow:0 8px 20px rgba(91,53,213,.24)}
+.side-label{padding:0 11px;margin:4px 0 8px;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em}.nav{display:grid;gap:3px}.nav a,.account-link{display:flex;align-items:center;gap:12px;padding:11px;border-radius:11px;color:var(--muted);font-size:12px;font-weight:600;transition:.2s}.nav a i,.account-link i{width:18px;text-align:center;font-size:13px}.nav a:hover,.account-link:hover,.nav a.active,.account-link.active{color:var(--primary);background:var(--violet-soft)}.sidebar-spacer{flex:1}.account{border-top:1px solid var(--border);padding-top:15px}.user-mini{display:flex;align-items:center;gap:10px;margin:0 7px 12px}.avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;color:#fff;background:linear-gradient(135deg,#6d4de0,#9278ed);font-size:11px;font-weight:800}.user-mini strong{display:block;font-size:11px}.user-mini span{display:block;color:var(--muted);font-size:9px}.account-links{display:grid;gap:2px}
+.main{margin-left:var(--sidebar);min-height:100vh}.topbar{position:sticky;top:0;z-index:90;height:var(--topbar);display:flex;align-items:center;gap:14px;padding:0 28px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}.mobile-menu{display:none}.top-search{position:relative;flex:1;max-width:470px}.top-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}.top-search input{width:100%;height:40px;padding:0 14px 0 37px;border:1px solid var(--border);border-radius:11px;outline:none;background:var(--surface);color:var(--text);font-size:12px}.top-search input:focus{border-color:var(--violet)}.top-actions{margin-left:auto;display:flex;align-items:center;gap:9px}.icon-btn{position:relative;width:39px;height:39px;display:grid;place-items:center;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--muted);transition:.2s}.icon-btn:hover{color:var(--primary);border-color:#cfc5f5;transform:translateY(-1px)}.notification-dot{position:absolute;right:8px;top:7px;width:6px;height:6px;border-radius:50%;background:var(--primary)}.top-user{display:flex;align-items:center;gap:9px;padding-left:5px}.top-user-name{font-size:11px;font-weight:700}
+.content{padding:30px 28px 60px;max-width:1100px;margin:auto}.page-header{margin-bottom:24px}.eyebrow{color:var(--primary);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}h1{font-size:30px;line-height:1.12;letter-spacing:-.05em;margin-top:6px}.page-header p{margin-top:7px;color:var(--muted);font-size:12px}
+.layout{display:grid;grid-template-columns:185px minmax(0,1fr);gap:22px}.settings-nav{position:sticky;top:94px;align-self:start;padding:7px}.settings-nav a{display:flex;align-items:center;gap:9px;padding:10px;border-radius:9px;color:var(--muted);font-size:9px;font-weight:700;transition:.2s}.settings-nav a:hover,.settings-nav a.active{background:var(--violet-soft);color:var(--primary)}.settings-nav i{width:16px;text-align:center}
+.section{scroll-margin-top:95px;margin-bottom:15px;padding:20px;border:1px solid var(--border);border-radius:16px;background:var(--surface);box-shadow:var(--shadow-soft)}.section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:14px}.section-head h2{font-size:14px;letter-spacing:-.025em}.section-head p{margin-top:3px;color:var(--muted);font-size:9px}.setting-row{display:flex;align-items:center;gap:13px;padding:13px 0;border-top:1px solid var(--border)}.setting-row:first-child{border-top:0;padding-top:0}.setting-icon{width:36px;height:36px;flex:0 0 auto;display:grid;place-items:center;border-radius:10px;background:var(--violet-soft);color:var(--primary);font-size:11px}.setting-copy{min-width:0;flex:1}.setting-copy strong{display:block;font-size:10px}.setting-copy span{display:block;color:var(--muted);font-size:8px;margin-top:3px;line-height:1.5}
+.theme-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.theme-option{min-height:66px;padding:11px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--muted);text-align:left;transition:.2s}.theme-option:hover{border-color:#cfc5f5;color:var(--primary)}.theme-option.active{border-color:var(--primary);background:var(--violet-soft);color:var(--primary)}.theme-option i{font-size:12px}.theme-option strong{display:block;margin-top:7px;font-size:9px}.theme-option span{display:block;font-size:7px;margin-top:2px}
+.switch{position:relative;width:42px;height:23px;flex:0 0 auto}.switch input{position:absolute;opacity:0;width:0;height:0}.slider{position:absolute;inset:0;border-radius:30px;background:#c9cad5;transition:.2s}.slider:before{content:"";position:absolute;width:17px;height:17px;left:3px;top:3px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.16);transition:.2s}.switch input:checked+.slider{background:var(--primary)}.switch input:checked+.slider:before{transform:translateX(19px)}.switch input:focus-visible+.slider{outline:2px solid var(--violet);outline-offset:2px}
+.link-row{display:flex;align-items:center;gap:13px;padding:13px 0;border-top:1px solid var(--border)}.link-row:first-of-type{border-top:0}.link-copy{flex:1}.link-copy strong{font-size:10px}.link-copy span{display:block;color:var(--muted);font-size:8px;margin-top:3px}.btn{min-height:34px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 11px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);font-size:8px;font-weight:700;transition:.2s}.btn:hover{transform:translateY(-1px);border-color:#cfc5f5;color:var(--primary);background:var(--violet-soft)}.btn-danger{color:var(--danger);border-color:rgba(194,77,90,.25);background:rgba(194,77,90,.04)}.btn-danger:hover{color:#fff;background:var(--danger);border-color:var(--danger)}
+.info-box{padding:12px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);color:var(--muted);font-size:8px;line-height:1.65}.info-box strong{color:var(--text)}
+.danger{border-color:rgba(194,77,90,.25)}.danger .section-head h2{color:var(--danger)}
+.modal-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(8,10,24,.50);z-index:250}.modal-backdrop.open{display:flex}.modal{width:min(500px,100%);border:1px solid var(--border);border-radius:18px;background:var(--surface);box-shadow:var(--shadow)}.modal-header{display:flex;justify-content:space-between;gap:15px;padding:19px 20px;border-bottom:1px solid var(--border)}.modal-header h2{font-size:16px}.modal-header p{margin-top:3px;color:var(--muted);font-size:8px}.close-btn{width:31px;height:31px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--muted)}.modal-body{padding:20px;color:var(--muted);font-size:9px;line-height:1.65}.modal-footer{display:flex;justify-content:flex-end;gap:8px;padding:14px 20px;border-top:1px solid var(--border)}
+.toast{position:fixed;right:24px;bottom:24px;z-index:400;padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--surface);box-shadow:var(--shadow);font-size:10px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:850px){.sidebar{transform:translateX(-100%);box-shadow:var(--shadow)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobile-menu{display:grid}.overlay.show{display:block;position:fixed;inset:0;background:rgba(10,12,25,.35);z-index:95}.topbar{padding:0 16px}.top-user-name{display:none}.content{padding:24px 16px 40px}.layout{grid-template-columns:1fr}.settings-nav{position:static;display:flex;gap:5px;overflow:auto;padding:0}.settings-nav a{white-space:nowrap}}
+@media(max-width:600px){.content{padding-left:13px;padding-right:13px}.theme-options{grid-template-columns:1fr}.section{padding:16px}.top-user{display:none}.link-row{align-items:flex-start;flex-wrap:wrap}.link-row .btn{margin-left:49px}}
+</style>
+</head>
+<body>
+<div class="overlay" id="overlay"></div>
+<aside class="sidebar" id="sidebar">
+ <a class="brand" href="dashboard.html"><span class="brand-mark"><i class="fa-solid fa-layer-group"></i></span>StudyHub</a>
+ <div class="side-label">Workspace</div>
+ <nav class="nav" aria-label="Workspace navigation">
+  <a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i>Dashboard</a><a href="documents.html"><i class="fa-regular fa-folder-open"></i>My Documents</a><a href="notes.html"><i class="fa-regular fa-note-sticky"></i>My Notes</a><a href="tasks.html"><i class="fa-regular fa-square-check"></i>Task Tracker</a><a href="calendar.html"><i class="fa-regular fa-calendar-days"></i>Calendar</a><a href="favorites.html"><i class="fa-regular fa-star"></i>Favorites</a><a href="search.html"><i class="fa-solid fa-magnifying-glass"></i>Search</a>
+ </nav>
+ <div class="sidebar-spacer"></div>
+ <div class="account"><div class="side-label">Account</div><div class="user-mini"><div class="avatar" id="sideAvatar">AK</div><div><strong id="sideName">Alex Khan</strong><span>Student account</span></div></div><div class="account-links"><a class="account-link" href="profile.html"><i class="fa-regular fa-user"></i>Profile</a><a class="account-link active" href="settings.html"><i class="fa-solid fa-gear"></i>Settings</a></div></div>
+</aside>
+
+<div class="main">
+<header class="topbar">
+ <button class="icon-btn mobile-menu" id="menuBtn" aria-label="Open sidebar"><i class="fa-solid fa-bars"></i></button>
+ <form class="top-search" id="globalSearchForm" action="search.html" method="get"><i class="fa-solid fa-magnifying-glass"></i><input name="q" id="globalSearch" type="search" placeholder="Search documents, notes, tasks..." autocomplete="off"></form>
+ <div class="top-actions"><button class="icon-btn" id="notificationBtn" aria-label="View notifications" title="Notifications"><i class="fa-regular fa-bell"></i><span class="notification-dot" id="notificationDot"></span></button><button class="icon-btn" id="themeBtn" aria-label="Switch theme" title="Switch theme"><i class="fa-solid fa-moon"></i></button><a class="top-user" href="profile.html"><div class="avatar" id="topAvatar">AK</div><span class="top-user-name" id="topName">Alex Khan</span></a></div>
+</header>
+
+<main class="content">
+ <section class="page-header"><div class="eyebrow">Preferences & account</div><h1>Settings</h1><p>Customize your StudyHub experience, notifications, and local data.</p></section>
+ <div class="layout">
+  <nav class="settings-nav" aria-label="Settings sections">
+   <a class="active" href="#appearance"><i class="fa-solid fa-palette"></i>Appearance</a>
+   <a href="#notifications"><i class="fa-regular fa-bell"></i>Notifications</a>
+   <a href="#account"><i class="fa-regular fa-user"></i>Account</a>
+   <a href="#privacy"><i class="fa-solid fa-shield-halved"></i>Privacy</a>
+   <a href="#danger"><i class="fa-solid fa-triangle-exclamation"></i>Danger Zone</a>
+  </nav>
+
+  <div>
+   <section class="section" id="appearance">
+    <div class="section-head"><div><h2>Appearance</h2><p>Choose how StudyHub looks on this device.</p></div></div>
+    <div class="theme-options" id="themeOptions">
+     <button class="theme-option" data-theme-choice="light"><i class="fa-solid fa-sun"></i><strong>Light Mode</strong><span>Bright workspace</span></button>
+     <button class="theme-option" data-theme-choice="dark"><i class="fa-solid fa-moon"></i><strong>Dark Mode</strong><span>Low-light workspace</span></button>
+     <button class="theme-option" data-theme-choice="system"><i class="fa-solid fa-desktop"></i><strong>System</strong><span>Follow device preference</span></button>
+    </div>
+   </section>
+
+   <section class="section" id="notifications">
+    <div class="section-head"><div><h2>Notifications</h2><p>Control reminders shown by StudyHub.</p></div></div>
+    <div class="setting-row"><div class="setting-icon"><i class="fa-regular fa-square-check"></i></div><div class="setting-copy"><strong>Task reminders</strong><span>Receive reminders for tasks that are approaching.</span></div><label class="switch"><input type="checkbox" data-notification="taskReminders"><span class="slider"></span></label></div>
+    <div class="setting-row"><div class="setting-icon"><i class="fa-solid fa-hourglass-half"></i></div><div class="setting-copy"><strong>Deadline reminders</strong><span>Highlight upcoming and overdue deadlines.</span></div><label class="switch"><input type="checkbox" data-notification="deadlineReminders"><span class="slider"></span></label></div>
+    <div class="setting-row"><div class="setting-icon"><i class="fa-regular fa-folder-open"></i></div><div class="setting-copy"><strong>Document notifications</strong><span>Show updates related to your document workspace.</span></div><label class="switch"><input type="checkbox" data-notification="documentNotifications"><span class="slider"></span></label></div>
+    <div class="setting-row"><div class="setting-icon"><i class="fa-solid fa-book-open"></i></div><div class="setting-copy"><strong>Study reminders</strong><span>Keep study sessions and planned work visible.</span></div><label class="switch"><input type="checkbox" data-notification="studyReminders"><span class="slider"></span></label></div>
+   </section>
+
+   <section class="section" id="account">
+    <div class="section-head"><div><h2>Account</h2><p>Manage your profile, password, and local session.</p></div></div>
+    <div class="link-row"><div class="setting-icon"><i class="fa-regular fa-user"></i></div><div class="link-copy"><strong>Profile settings</strong><span>Update your name, email, university, and student details.</span></div><a class="btn" href="profile.html">Open Profile</a></div>
+    <div class="link-row"><div class="setting-icon"><i class="fa-solid fa-key"></i></div><div class="link-copy"><strong>Password</strong><span>Open the frontend-only password controls.</span></div><a class="btn" href="profile.html#security">Manage</a></div>
+    <div class="link-row"><div class="setting-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></div><div class="link-copy"><strong>Logout</strong><span>End this local StudyHub session on this browser.</span></div><button class="btn btn-danger" id="logoutBtn">Logout</button></div>
+   </section>
+
+   <section class="section" id="privacy">
+    <div class="section-head"><div><h2>Privacy</h2><p>Understand where your StudyHub data is stored.</p></div></div>
+    <div class="info-box"><strong>Local data:</strong> This frontend version stores profile information, documents metadata, notes, tasks, events, favorites, preferences, and theme settings in your browser's localStorage. Uploaded file metadata is local to this browser unless a future backend integration is added.</div>
+    <div class="link-row"><div class="setting-icon"><i class="fa-solid fa-trash-can"></i></div><div class="link-copy"><strong>Clear local data</strong><span>Remove saved StudyHub data from this browser. This cannot be undone.</span></div><button class="btn btn-danger" id="clearBtn">Clear Local Data</button></div>
+   </section>
+
+   <section class="section danger" id="danger">
+    <div class="section-head"><div><h2>Danger Zone</h2><p>Irreversible actions for this browser's StudyHub data.</p></div></div>
+    <div class="link-row"><div class="setting-icon"><i class="fa-solid fa-rotate-left"></i></div><div class="link-copy"><strong>Reset StudyHub data</strong><span>Delete StudyHub data and restore the application to a clean local state.</span></div><button class="btn btn-danger" id="resetBtn">Reset Data</button></div>
+   </section>
+  </div>
+ </div>
+</main>
+</div>
+
+<div class="modal-backdrop" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+ <div class="modal"><div class="modal-header"><div><h2 id="confirmTitle">Confirm action</h2><p>This action changes local StudyHub data.</p></div><button class="close-btn" data-close="confirmModal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div class="modal-body" id="confirmText"></div><div class="modal-footer"><button class="btn" data-close="confirmModal">Cancel</button><button class="btn btn-danger" id="confirmAction">Continue</button></div></div>
+</div>
+<div class="modal-backdrop" id="logoutModal" role="dialog" aria-modal="true" aria-labelledby="logoutTitle">
+ <div class="modal"><div class="modal-header"><div><h2 id="logoutTitle">Log out of StudyHub?</h2><p>Frontend demo session</p></div><button class="close-btn" data-close="logoutModal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div><div class="modal-body">This will clear the local login/session marker and return you to <strong>login.html</strong>. Your saved StudyHub content is not deleted.</div><div class="modal-footer"><button class="btn" data-close="logoutModal">Cancel</button><button class="btn btn-danger" id="confirmLogout">Logout</button></div></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+ const $=id=>document.getElementById(id);
+ const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
+ const write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
+ const profile=read("studyhub-user",{name:"Alex Khan"}),name=profile.name||"Alex Khan";
+ const ini=name.trim().split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase()||"U";
+ $("sideName").textContent=name;$("topName").textContent=name;$("sideAvatar").textContent=ini;$("topAvatar").textContent=ini;
+
+ // Theme preference: light, dark, or system. Stored centrally for all StudyHub pages.
+ const root=document.documentElement;
+ function pref(){return localStorage.getItem("studyhub-theme")||"system"}
+ function applyTheme(){
+  const p=pref(),systemDark=matchMedia("(prefers-color-scheme: dark)").matches;
+  root.classList.toggle("dark",p==="dark"||(p==="system"&&systemDark));
+  document.querySelectorAll("[data-theme-choice]").forEach(b=>b.classList.toggle("active",b.dataset.themeChoice===p));
+  const dark=root.classList.contains("dark");
+  $("themeBtn").innerHTML=dark?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>';
+  $("themeBtn").title=dark?"Switch to light mode":"Switch to dark mode";
+ }
+ applyTheme();
+ document.querySelectorAll("[data-theme-choice]").forEach(b=>b.onclick=()=>{localStorage.setItem("studyhub-theme",b.dataset.themeChoice);applyTheme();showToast(`${b.textContent.trim().split(/\s+/).slice(0,2).join(" ")} selected.`)});
+ $("themeBtn").onclick=()=>{localStorage.setItem("studyhub-theme",root.classList.contains("dark")?"light":"dark");applyTheme();showToast(`Theme changed to ${root.classList.contains("dark")?"dark":"light"} mode.`)};
+ matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>{if(pref()==="system")applyTheme()});
+
+ function closeSidebar(){$("sidebar").classList.remove("open");$("overlay").classList.remove("show")}
+ $("menuBtn").onclick=()=>{$("sidebar").classList.add("open");$("overlay").classList.add("show")};$("overlay").onclick=closeSidebar;
+ $("globalSearchForm").onsubmit=e=>{if(!$("globalSearch").value.trim()){e.preventDefault();location.href="search.html"}};
+ $("notificationBtn").onclick=()=>showToast("Notification preferences are saved locally on this browser.");
+
+ const notificationKey="studyhub-notifications";
+ const notificationDefaults={taskReminders:true,deadlineReminders:true,documentNotifications:true,studyReminders:false};
+ const notificationSettings={...notificationDefaults,...read(notificationKey,{})};
+ document.querySelectorAll("[data-notification]").forEach(input=>{const k=input.dataset.notification;input.checked=!!notificationSettings[k];input.onchange=()=>{notificationSettings[k]=input.checked;write(notificationKey,notificationSettings);showToast(`${input.checked?"Enabled":"Disabled"} ${input.closest(".setting-row").querySelector("strong").textContent.toLowerCase()}.`)}});
+
+ document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
+ document.querySelectorAll(".modal-backdrop").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModal(m.id)}));
+ document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal-backdrop.open").forEach(m=>closeModal(m.id))});
+ function openModal(id){$(id).classList.add("open");document.body.style.overflow="hidden"}
+ function closeModal(id){$(id).classList.remove("open");if(!document.querySelector(".modal-backdrop.open"))document.body.style.overflow=""}
+
+ let pendingAction=null;
+ function ask(title,text,action){$("confirmTitle").textContent=title;$("confirmText").textContent=text;pendingAction=action;openModal("confirmModal")}
+ $("clearBtn").onclick=()=>ask("Clear local data","This will permanently remove saved StudyHub profile, documents metadata, notes, tasks, events, favorites, notification preferences, and other StudyHub local data from this browser. Your files are not uploaded anywhere by this action. Continue only if you are sure.",clearData);
+ $("resetBtn").onclick=()=>ask("Reset StudyHub data","This will permanently reset the StudyHub application data stored in this browser. There is no backend recovery for this frontend demo. Continue?",resetData);
+ $("confirmAction").onclick=()=>{if(pendingAction)pendingAction();pendingAction=null;closeModal("confirmModal")};
+
+ function clearData(){
+  const keys=["studyhub-user","studyhub-documents","studyhub-docs","documents","studyhub-notes","studyhub-tasks","studyhub-events","studyhub-notifications","studyhub-password-demo","studyhub-theme","studyhub-favorites-notifications-seen","studyhub-search-query"];
+  keys.forEach(k=>localStorage.removeItem(k));sessionStorage.removeItem("studyhub-search-query");
+  showToast("Local StudyHub data cleared.");setTimeout(()=>location.href="login.html",800);
+ }
+ function resetData(){
+  const keys=["studyhub-user","studyhub-documents","studyhub-docs","documents","studyhub-notes","studyhub-tasks","studyhub-events","studyhub-notifications","studyhub-password-demo","studyhub-theme","studyhub-favorites-notifications-seen","studyhub-search-query"];
+  keys.forEach(k=>localStorage.removeItem(k));sessionStorage.removeItem("studyhub-search-query");
+  showToast("StudyHub data reset. Returning to login.");setTimeout(()=>location.href="login.html",900);
+ }
+
+ $("logoutBtn").onclick=()=>openModal("logoutModal");
+ $("confirmLogout").onclick=()=>{
+  // Do not delete content; only clear common local frontend session markers.
+  ["studyhub-session","studyhub-authenticated","studyhub-logged-in"].forEach(k=>localStorage.removeItem(k));
+  sessionStorage.removeItem("studyhub-session");closeModal("logoutModal");showToast("Logged out of the local StudyHub session.");
+  setTimeout(()=>location.href="login.html",700);
+ };
+
+ // Keep profile name in sync if another StudyHub page edits it.
+ window.addEventListener("storage",e=>{
+  if(e.key==="studyhub-user"){const p=read("studyhub-user",{name:"Alex Khan"}),n=p.name||"Alex Khan",i=n.trim().split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase();$("sideName").textContent=n;$("topName").textContent=n;$("sideAvatar").textContent=i;$("topAvatar").textContent=i}
+  if(e.key==="studyhub-theme")applyTheme();
+ });
+ function showToast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2600)}
+})();
+</script>
+</body>
+</html>

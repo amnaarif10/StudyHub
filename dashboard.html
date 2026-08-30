@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StudyHub student productivity dashboard.">
+  <title>StudyHub — Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    :root {
+      --primary:#5b35d5; --primary-dark:#4523b7; --violet:#8b6ff0;
+      --violet-soft:#eee9ff; --bg:#f7f7fb; --surface:#fff; --surface-2:#faf9ff;
+      --text:#17172a; --muted:#6b6b7d; --border:#e8e7ef;
+      --success:#23855d; --warning:#b97819; --danger:#b94a55;
+      --shadow:0 16px 45px rgba(38,27,92,.09); --shadow-soft:0 7px 24px rgba(38,27,92,.06);
+      --sidebar:248px; --topbar:72px;
+    }
+    html.dark {
+      --bg:#0c1020; --surface:#13182a; --surface-2:#171d31;
+      --text:#f5f5fb; --muted:#a7aac0; --border:#292f46;
+      --violet-soft:#272044; --shadow:0 18px 50px rgba(0,0,0,.28);
+      --shadow-soft:0 8px 25px rgba(0,0,0,.20);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+    button,input{font:inherit} button{cursor:pointer} a{text-decoration:none;color:inherit}
+    .app{min-height:100vh}
+    .sidebar{
+      position:fixed;inset:0 auto 0 0;width:var(--sidebar);padding:20px 15px;
+      background:var(--surface);border-right:1px solid var(--border);z-index:100;
+      display:flex;flex-direction:column;transition:transform .25s ease;
+    }
+    .brand{display:flex;align-items:center;gap:10px;padding:5px 10px 30px;font-weight:800;font-size:19px;letter-spacing:-.04em}
+    .brand-mark{width:35px;height:35px;display:grid;place-items:center;border-radius:11px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--violet));box-shadow:0 8px 20px rgba(91,53,213,.24)}
+    .side-label{padding:0 11px;margin:4px 0 8px;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em}
+    .nav{display:grid;gap:3px}
+    .nav a,.account-link{
+      display:flex;align-items:center;gap:12px;padding:11px;border-radius:11px;color:var(--muted);
+      font-size:12px;font-weight:600;transition:.2s ease;
+    }
+    .nav a i,.account-link i{width:18px;text-align:center;font-size:13px}
+    .nav a:hover,.account-link:hover{color:var(--primary);background:var(--violet-soft)}
+    .nav a.active{color:var(--primary);background:var(--violet-soft)}
+    .sidebar-spacer{flex:1}
+    .account{border-top:1px solid var(--border);padding-top:15px}
+    .user-mini{display:flex;align-items:center;gap:10px;margin:0 7px 12px}
+    .avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;color:#fff;background:linear-gradient(135deg,#6d4de0,#9278ed);font-size:11px;font-weight:800}
+    .user-mini strong{display:block;font-size:11px}.user-mini span{display:block;color:var(--muted);font-size:9px;margin-top:1px}
+    .account-links{display:grid;gap:2px}
+
+    .main{margin-left:var(--sidebar);min-height:100vh}
+    .topbar{
+      position:sticky;top:0;z-index:90;height:var(--topbar);display:flex;align-items:center;gap:14px;
+      padding:0 28px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px);
+      border-bottom:1px solid color-mix(in srgb,var(--border) 85%,transparent)
+    }
+    .mobile-menu{display:none}
+    .top-search{position:relative;flex:1;max-width:470px}
+    .top-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+    .top-search input{
+      width:100%;height:40px;padding:0 14px 0 37px;border:1px solid var(--border);border-radius:11px;
+      outline:none;background:var(--surface);color:var(--text);font-size:12px;transition:border-color .2s
+    }
+    .top-search input:focus{border-color:var(--violet)}
+    .top-actions{margin-left:auto;display:flex;align-items:center;gap:9px}
+    .icon-btn{
+      position:relative;width:39px;height:39px;display:grid;place-items:center;border:1px solid var(--border);
+      border-radius:11px;background:var(--surface);color:var(--muted);transition:.2s ease
+    }
+    .icon-btn:hover{color:var(--primary);border-color:#cfc5f5;transform:translateY(-1px)}
+    .notification-dot{position:absolute;right:8px;top:7px;width:6px;height:6px;border-radius:50%;background:var(--primary)}
+    .top-user{display:flex;align-items:center;gap:9px;padding-left:5px}
+    .top-user-name{font-size:11px;font-weight:700}
+    .content{padding:30px 28px 45px;max-width:1500px}
+    .welcome{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:25px}
+    .eyebrow{color:var(--primary);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}
+    h1{font-size:30px;line-height:1.12;letter-spacing:-.05em;margin-top:6px}
+    .welcome p{margin-top:7px;color:var(--muted);font-size:12px}
+    .date-pill{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--muted);font-size:10px;font-weight:600}
+
+    .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-soft)}
+    .stat{padding:17px}
+    .stat-head{display:flex;justify-content:space-between;align-items:center}
+    .stat-icon{width:33px;height:33px;display:grid;place-items:center;border-radius:9px;color:var(--primary);background:var(--violet-soft);font-size:12px}
+    .trend{font-size:9px;font-weight:700;color:var(--success)}
+    .stat-value{margin-top:16px;font-size:25px;font-weight:800;letter-spacing:-.05em}
+    .stat-label{margin-top:2px;color:var(--muted);font-size:10px}
+
+    .grid-main{display:grid;grid-template-columns:1.05fr 1.25fr .85fr;gap:14px}
+    .panel{padding:18px;min-width:0}
+    .panel.wide{grid-column:span 2}
+    .panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .panel-title{font-size:13px;font-weight:800;letter-spacing:-.02em}
+    .panel-sub{color:var(--muted);font-size:9px;margin-top:3px}
+    .panel-link{color:var(--primary);font-size:9px;font-weight:700;border:0;background:none}
+
+    .focus-list,.task-list,.doc-list,.note-list{display:grid}
+    .focus-item,.task-item,.doc-item,.note-item{
+      display:flex;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--border)
+    }
+    .focus-item:first-child,.task-item:first-child,.doc-item:first-child,.note-item:first-child{border-top:0;padding-top:2px}
+    .check{width:16px;height:16px;border:1px solid var(--border);border-radius:5px;display:grid;place-items:center;flex:0 0 auto;color:#fff;font-size:7px}
+    .check.done{background:var(--primary);border-color:var(--primary)}
+    .item-main{min-width:0;flex:1}.item-main strong{display:block;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .item-main span{display:block;color:var(--muted);font-size:8px;margin-top:2px}
+    .tag{padding:4px 7px;border-radius:6px;background:var(--violet-soft);color:var(--primary);font-size:8px;font-weight:700;white-space:nowrap}
+    .tag.warning{color:var(--warning);background:rgba(185,120,25,.10)}
+    .tag.success{color:var(--success);background:rgba(35,133,93,.10)}
+    .doc-icon,.note-icon{width:32px;height:32px;display:grid;place-items:center;flex:0 0 auto;border-radius:9px;background:var(--violet-soft);color:var(--primary);font-size:11px}
+    .empty{padding:22px 4px;text-align:center;color:var(--muted);font-size:10px}
+
+    .chart{height:185px;display:flex;align-items:flex-end;gap:11px;padding:16px 3px 3px;border-bottom:1px solid var(--border)}
+    .bar-col{height:100%;flex:1;display:flex;align-items:flex-end;justify-content:center;position:relative}
+    .bar{width:100%;max-width:28px;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,var(--violet),var(--primary));transition:height .4s ease}
+    .bar:hover{filter:brightness(1.08);transform:translateY(-2px)}
+    .day{position:absolute;bottom:-22px;color:var(--muted);font-size:8px}
+    .chart-footer{display:flex;justify-content:space-between;margin-top:27px}
+    .chart-total strong{display:block;font-size:18px;letter-spacing:-.04em}.chart-total span{color:var(--muted);font-size:9px}
+    .chart-badge{align-self:center;padding:5px 8px;border-radius:7px;background:rgba(35,133,93,.10);color:var(--success);font-size:8px;font-weight:700}
+
+    .quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+    .quick{
+      min-height:75px;padding:13px;text-align:left;border:1px solid var(--border);border-radius:12px;background:var(--surface);
+      color:var(--text);transition:.2s ease
+    }
+    .quick:hover{transform:translateY(-3px);border-color:#d5cdf5;box-shadow:var(--shadow-soft)}
+    .quick i{color:var(--primary);font-size:13px}.quick strong{display:block;margin-top:9px;font-size:9px}.quick span{display:block;color:var(--muted);font-size:8px;margin-top:2px}
+
+    .toast{
+      position:fixed;right:24px;bottom:24px;z-index:300;padding:13px 15px;border:1px solid var(--border);
+      border-radius:12px;background:var(--surface);box-shadow:var(--shadow);font-size:11px;opacity:0;
+      transform:translateY(12px);pointer-events:none;transition:.25s ease
+    }
+    .toast.show{opacity:1;transform:translateY(0)}
+    .overlay{display:none}
+
+    @media(max-width:1150px){
+      .stats{grid-template-columns:repeat(3,1fr)}
+      .grid-main{grid-template-columns:1fr 1fr}
+      .panel.wide{grid-column:span 2}
+    }
+    @media(max-width:800px){
+      :root{--sidebar:250px}
+      .sidebar{transform:translateX(-100%);box-shadow:var(--shadow)}
+      .sidebar.open{transform:translateX(0)}
+      .main{margin-left:0}
+      .mobile-menu{display:grid}
+      .overlay.show{display:block;position:fixed;inset:0;background:rgba(10,12,25,.35);z-index:95}
+      .topbar{padding:0 16px}
+      .top-user-name{display:none}
+      .content{padding:24px 16px 40px}
+      .welcome{align-items:flex-start;flex-direction:column}
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .grid-main{grid-template-columns:1fr}
+      .panel.wide{grid-column:auto}
+    }
+    @media(max-width:520px){
+      .top-search{max-width:none}
+      .top-user{display:none}
+      .stats{grid-template-columns:1fr 1fr;gap:8px}
+      .stat{padding:13px}.stat-value{font-size:21px}
+      .quick-actions{grid-template-columns:1fr 1fr}
+      h1{font-size:26px}
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="dashboard.html" aria-label="StudyHub dashboard">
+      <span class="brand-mark"><i class="fa-solid fa-layer-group"></i></span>
+      StudyHub
+    </a>
+
+    <div class="side-label">Workspace</div>
+    <nav class="nav" aria-label="Workspace navigation">
+      <a class="active" href="dashboard.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+      <a href="documents.html"><i class="fa-regular fa-folder-open"></i> My Documents</a>
+      <a href="notes.html"><i class="fa-regular fa-note-sticky"></i> My Notes</a>
+      <a href="tasks.html"><i class="fa-regular fa-square-check"></i> Task Tracker</a>
+      <a href="calendar.html"><i class="fa-regular fa-calendar-days"></i> Calendar</a>
+      <a href="favorites.html"><i class="fa-regular fa-star"></i> Favorites</a>
+      <a href="search.html"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+    </nav>
+
+    <div class="sidebar-spacer"></div>
+    <div class="account">
+      <div class="side-label">Account</div>
+      <div class="user-mini">
+        <div class="avatar" id="sideAvatar">AK</div>
+        <div><strong id="sideName">Alex Khan</strong><span>Student account</span></div>
+      </div>
+      <div class="account-links">
+        <a class="account-link" href="profile.html"><i class="fa-regular fa-user"></i> Profile</a>
+        <a class="account-link" href="settings.html"><i class="fa-solid fa-gear"></i> Settings</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn mobile-menu" id="menuBtn" aria-label="Open sidebar"><i class="fa-solid fa-bars"></i></button>
+
+      <form class="top-search" id="searchForm" action="search.html" method="get">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="globalSearch" name="q" type="search" placeholder="Search documents, notes, tasks..." autocomplete="off">
+      </form>
+
+      <div class="top-actions">
+        <button class="icon-btn" id="notificationBtn" aria-label="View notifications" title="Notifications">
+          <i class="fa-regular fa-bell"></i><span class="notification-dot" id="notificationDot"></span>
+        </button>
+        <button class="icon-btn" id="themeBtn" aria-label="Switch theme" title="Switch theme"><i class="fa-solid fa-moon"></i></button>
+        <a class="top-user" href="profile.html" aria-label="Open profile">
+          <div class="avatar" id="topAvatar">AK</div>
+          <span class="top-user-name" id="topName">Alex Khan</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="welcome">
+        <div>
+          <div class="eyebrow">Your study workspace</div>
+          <h1>Good morning, <span id="welcomeName">Alex</span></h1>
+          <p>Here’s what needs your attention today.</p>
+        </div>
+        <div class="date-pill"><i class="fa-regular fa-calendar"></i><span id="todayDate"></span></div>
+      </section>
+
+      <section class="stats" id="statsGrid" aria-label="Study statistics"></section>
+
+      <section class="grid-main">
+        <article class="card panel">
+          <div class="panel-header">
+            <div><div class="panel-title">Today’s Focus</div><div class="panel-sub">Your most important tasks</div></div>
+            <button class="panel-link" id="focusLink">View tasks</button>
+          </div>
+          <div class="focus-list" id="focusList"></div>
+        </article>
+
+        <article class="card panel">
+          <div class="panel-header">
+            <div><div class="panel-title">Recent Documents</div><div class="panel-sub">Your latest study material</div></div>
+            <a class="panel-link" href="documents.html">View all</a>
+          </div>
+          <div class="doc-list" id="documentList"></div>
+        </article>
+
+        <article class="card panel">
+          <div class="panel-header">
+            <div><div class="panel-title">Recent Notes</div><div class="panel-sub">Fresh ideas and summaries</div></div>
+            <a class="panel-link" href="notes.html">View all</a>
+          </div>
+          <div class="note-list" id="noteList"></div>
+        </article>
+
+        <article class="card panel wide">
+          <div class="panel-header">
+            <div><div class="panel-title">Productivity Overview</div><div class="panel-sub">Your activity across the last 7 days</div></div>
+            <span class="tag success" id="productivityBadge">+12% this week</span>
+          </div>
+          <div class="chart" id="chart"></div>
+          <div class="chart-footer">
+            <div class="chart-total"><strong id="weeklyAverage">0%</strong><span>Average productivity</span></div>
+            <div class="chart-badge">On track</div>
+          </div>
+        </article>
+
+        <article class="card panel">
+          <div class="panel-header">
+            <div><div class="panel-title">Upcoming Tasks</div><div class="panel-sub">Deadlines coming up</div></div>
+            <a class="panel-link" href="tasks.html">Manage</a>
+          </div>
+          <div class="task-list" id="upcomingList"></div>
+        </article>
+
+        <article class="card panel wide">
+          <div class="panel-header">
+            <div><div class="panel-title">Quick Actions</div><div class="panel-sub">Jump straight into your workflow</div></div>
+          </div>
+          <div class="quick-actions">
+            <button class="quick" data-action="upload"><i class="fa-solid fa-arrow-up-from-bracket"></i><strong>Upload Document</strong><span>Add study material</span></button>
+            <button class="quick" data-action="note"><i class="fa-regular fa-note-sticky"></i><strong>Create Note</strong><span>Capture an idea</span></button>
+            <button class="quick" data-action="task"><i class="fa-regular fa-square-check"></i><strong>Add Task</strong><span>Track a deadline</span></button>
+            <button class="quick" data-action="event"><i class="fa-regular fa-calendar-plus"></i><strong>Add Event</strong><span>Plan your day</span></button>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const read = (key, fallback) => {
+    try { const value = JSON.parse(localStorage.getItem(key)); return value ?? fallback; }
+    catch { return fallback; }
+  };
+  const write = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+
+  const demoData = {
+    documents: [
+      {name:"Database Systems — Lecture 08", type:"PDF", size:"4.2 MB", date:"Today", icon:"fa-file-pdf"},
+      {name:"Software Engineering Notes", type:"DOCX", size:"1.8 MB", date:"Yesterday", icon:"fa-file-lines"},
+      {name:"UX Research Presentation", type:"PPTX", size:"8.4 MB", date:"Aug 27", icon:"fa-file-powerpoint"}
+    ],
+    notes: [
+      {title:"Database normalization — key concepts", meta:"Edited today · 12 min read"},
+      {title:"Exam revision checklist", meta:"Edited yesterday · 8 min read"},
+      {title:"UX research interview notes", meta:"Aug 27 · 15 min read"}
+    ],
+    tasks: [
+      {title:"Finish database assignment", meta:"Due today · 5:00 PM", status:"pending", priority:"High"},
+      {title:"Prepare seminar slides", meta:"Due tomorrow", status:"pending", priority:"Medium"},
+      {title:"Review lecture notes", meta:"Completed today", status:"done", priority:"Done"},
+      {title:"Submit UX research report", meta:"Due Sep 2", status:"pending", priority:"Medium"}
+    ],
+    events: [
+      {title:"Database Systems class", date:"Today · 10:00 AM"},
+      {title:"Software Engineering seminar", date:"Tomorrow · 2:00 PM"}
+    ],
+    productivity: [62,74,68,81,77,89,84]
+  };
+
+  function seed(key) {
+    if (localStorage.getItem(key) === null) write(key, demoData[key]);
+    return read(key, demoData[key]);
+  }
+
+  const documents = seed("studyhub-documents");
+  const notes = seed("studyhub-notes");
+  const tasks = seed("studyhub-tasks");
+  const events = seed("studyhub-events");
+  const productivity = seed("studyhub-productivity");
+
+  const profile = read("studyhub-user", {name:"Alex Khan"});
+  const fullName = profile.name || "Alex Khan";
+  const firstName = fullName.trim().split(/\s+/)[0] || "Student";
+  const initials = fullName.trim().split(/\s+/).map(x => x[0]).slice(0,2).join("").toUpperCase();
+
+  ["sideName","topName"].forEach(id => $(id).textContent = fullName);
+  $("welcomeName").textContent = firstName;
+  ["sideAvatar","topAvatar"].forEach(id => $(id).textContent = initials);
+
+  const date = new Date();
+  $("todayDate").textContent = date.toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric", year:"numeric"});
+
+  function renderStats() {
+    const pending = tasks.filter(t => t.status !== "done").length;
+    const completed = tasks.filter(t => t.status === "done").length;
+    const upcoming = events.length;
+    const stats = [
+      ["fa-folder-open","Total Documents",documents.length,""],
+      ["fa-note-sticky","Total Notes",notes.length,""],
+      ["fa-list-check","Pending Tasks",pending,""],
+      ["fa-circle-check","Completed Tasks",completed,""],
+      ["fa-calendar-days","Upcoming Events",upcoming,""]
+    ];
+    $("statsGrid").innerHTML = stats.map(s => `
+      <div class="card stat">
+        <div class="stat-head"><div class="stat-icon"><i class="fa-regular ${s[0]}"></i></div></div>
+        <div class="stat-value">${s[2]}</div><div class="stat-label">${s[1]}</div>
+      </div>`).join("");
+  }
+
+  function renderFocus() {
+    const items = tasks.slice(0,4);
+    $("focusList").innerHTML = items.length ? items.map(t => `
+      <div class="focus-item">
+        <div class="check ${t.status==="done"?"done":""}">${t.status==="done"?'<i class="fa-solid fa-check"></i>':""}</div>
+        <div class="item-main"><strong>${escapeHtml(t.title)}</strong><span>${escapeHtml(t.meta || "")}</span></div>
+        <span class="tag ${t.status==="done"?"success":""}">${escapeHtml(t.priority || "Task")}</span>
+      </div>`).join("") : '<div class="empty">No tasks for today.</div>';
+  }
+
+  function renderDocuments() {
+    $("documentList").innerHTML = documents.slice(0,4).map(d => `
+      <a class="doc-item" href="documents.html">
+        <div class="doc-icon"><i class="fa-regular ${escapeHtml(d.icon || "fa-file")}"></i></div>
+        <div class="item-main"><strong>${escapeHtml(d.name)}</strong><span>${escapeHtml(d.type || "File")} · ${escapeHtml(d.size || "")} · ${escapeHtml(d.date || "")}</span></div>
+        <i class="fa-solid fa-chevron-right" style="font-size:8px;color:var(--muted)"></i>
+      </a>`).join("") || '<div class="empty">No documents yet.</div>';
+  }
+
+  function renderNotes() {
+    $("noteList").innerHTML = notes.slice(0,4).map(n => `
+      <a class="note-item" href="notes.html">
+        <div class="note-icon"><i class="fa-regular fa-note-sticky"></i></div>
+        <div class="item-main"><strong>${escapeHtml(n.title || n.name || "Untitled note")}</strong><span>${escapeHtml(n.meta || "Recently updated")}</span></div>
+        <i class="fa-solid fa-chevron-right" style="font-size:8px;color:var(--muted)"></i>
+      </a>`).join("") || '<div class="empty">No notes yet.</div>';
+  }
+
+  function renderUpcoming() {
+    const upcoming = tasks.filter(t => t.status !== "done").slice(0,4);
+    $("upcomingList").innerHTML = upcoming.map(t => `
+      <a class="task-item" href="tasks.html">
+        <div class="check"></div>
+        <div class="item-main"><strong>${escapeHtml(t.title)}</strong><span>${escapeHtml(t.meta || "Upcoming")}</span></div>
+        <span class="tag ${t.priority==="High"?"warning":""}">${escapeHtml(t.priority || "Task")}</span>
+      </a>`).join("") || '<div class="empty">No upcoming tasks.</div>';
+  }
+
+  function renderChart() {
+    const values = Array.isArray(productivity) && productivity.length ? productivity : demoData.productivity;
+    const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+    $("chart").innerHTML = values.slice(-7).map((v,i) => `
+      <div class="bar-col" title="${v}% productivity"><div class="bar" style="height:${Math.max(8,Math.min(100,Number(v)||0))}%"></div><span class="day">${days[i] || ""}</span></div>
+    `).join("");
+    const avg = Math.round(values.reduce((a,b)=>a+Number(b||0),0)/values.length);
+    $("weeklyAverage").textContent = avg + "%";
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+  }
+
+  renderStats(); renderFocus(); renderDocuments(); renderNotes(); renderUpcoming(); renderChart();
+
+  // Theme persists across the StudyHub pages.
+  const root = document.documentElement;
+  const savedTheme = localStorage.getItem("studyhub-theme");
+  if (savedTheme === "dark" || (!savedTheme && matchMedia("(prefers-color-scheme: dark)").matches)) root.classList.add("dark");
+
+  function updateTheme() {
+    const dark = root.classList.contains("dark");
+    $("themeBtn").innerHTML = dark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    $("themeBtn").title = dark ? "Switch to light mode" : "Switch to dark mode";
+  }
+  updateTheme();
+  $("themeBtn").addEventListener("click", () => {
+    root.classList.toggle("dark");
+    localStorage.setItem("studyhub-theme", root.classList.contains("dark") ? "dark" : "light");
+    updateTheme();
+  });
+
+  // Mobile sidebar.
+  const sidebar = $("sidebar"), overlay = $("overlay");
+  function closeMenu(){sidebar.classList.remove("open");overlay.classList.remove("show")}
+  $("menuBtn").addEventListener("click", () => {sidebar.classList.add("open");overlay.classList.add("show")});
+  overlay.addEventListener("click", closeMenu);
+
+  // Global search: submits to the dedicated search page.
+  $("searchForm").addEventListener("submit", e => {
+    const q = $("globalSearch").value.trim();
+    if (!q) { e.preventDefault(); location.href = "search.html"; }
+  });
+
+  $("focusLink").addEventListener("click", () => location.href = "tasks.html");
+
+  // Notifications: real local notification summary rather than a decorative button.
+  $("notificationBtn").addEventListener("click", () => {
+    const pending = tasks.filter(t => t.status !== "done").length;
+    const message = pending ? `You have ${pending} pending task${pending===1?"":"s"} to review.` : "You’re all caught up — no pending tasks.";
+    showToast(message);
+    $("notificationDot").style.display = "none";
+    localStorage.setItem("studyhub-notifications-seen","true");
+  });
+  if (localStorage.getItem("studyhub-notifications-seen")==="true") $("notificationDot").style.display="none";
+
+  // Quick actions navigate to the corresponding integrated page.
+  const routes = {upload:"documents.html?action=upload",note:"notes.html?action=create",task:"tasks.html?action=add",event:"calendar.html?action=add"};
+  document.querySelectorAll("[data-action]").forEach(btn => btn.addEventListener("click", () => location.href = routes[btn.dataset.action]));
+
+  function showToast(message) {
+    const toast=$("toast"); toast.textContent=message; toast.classList.add("show");
+    clearTimeout(window.__toast); window.__toast=setTimeout(()=>toast.classList.remove("show"),2600);
+  }
+})();
+</script>
+</body>
+</html>

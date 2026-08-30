@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="StudyHub profile and account information.">
+<title>StudyHub — Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root{--primary:#5b35d5;--violet:#8b6ff0;--violet-soft:#eee9ff;--bg:#f7f7fb;--surface:#fff;--surface-2:#faf9ff;--text:#17172a;--muted:#6b6b7d;--border:#e8e7ef;--danger:#c24d5a;--success:#23855d;--sidebar:248px;--topbar:72px;--shadow:0 18px 50px rgba(38,27,92,.10);--shadow-soft:0 7px 25px rgba(38,27,92,.06)}
+html.dark{--bg:#0c1020;--surface:#13182a;--surface-2:#171d31;--text:#f5f5fb;--muted:#a7aac0;--border:#292f46;--violet-soft:#272044;--shadow:0 18px 50px rgba(0,0,0,.30);--shadow-soft:0 8px 25px rgba(0,0,0,.22)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}button,input{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
+.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);padding:20px 15px;background:var(--surface);border-right:1px solid var(--border);z-index:100;display:flex;flex-direction:column;transition:transform .25s}.brand{display:flex;align-items:center;gap:10px;padding:5px 10px 30px;font-weight:800;font-size:19px;letter-spacing:-.04em}.brand-mark{width:35px;height:35px;display:grid;place-items:center;border-radius:11px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--violet));box-shadow:0 8px 20px rgba(91,53,213,.24)}
+.side-label{padding:0 11px;margin:4px 0 8px;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em}.nav{display:grid;gap:3px}.nav a,.account-link{display:flex;align-items:center;gap:12px;padding:11px;border-radius:11px;color:var(--muted);font-size:12px;font-weight:600;transition:.2s}.nav a i,.account-link i{width:18px;text-align:center;font-size:13px}.nav a:hover,.account-link:hover,.nav a.active{color:var(--primary);background:var(--violet-soft)}.sidebar-spacer{flex:1}.account{border-top:1px solid var(--border);padding-top:15px}.user-mini{display:flex;align-items:center;gap:10px;margin:0 7px 12px}.avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;color:#fff;background:linear-gradient(135deg,#6d4de0,#9278ed);font-size:11px;font-weight:800}.user-mini strong{display:block;font-size:11px}.user-mini span{display:block;color:var(--muted);font-size:9px}.account-links{display:grid;gap:2px}
+.main{margin-left:var(--sidebar);min-height:100vh}.topbar{position:sticky;top:0;z-index:90;height:var(--topbar);display:flex;align-items:center;gap:14px;padding:0 28px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}.mobile-menu{display:none}.top-search{position:relative;flex:1;max-width:470px}.top-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}.top-search input{width:100%;height:40px;padding:0 14px 0 37px;border:1px solid var(--border);border-radius:11px;outline:none;background:var(--surface);color:var(--text);font-size:12px}.top-search input:focus{border-color:var(--violet)}.top-actions{margin-left:auto;display:flex;align-items:center;gap:9px}.icon-btn{position:relative;width:39px;height:39px;display:grid;place-items:center;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--muted);transition:.2s}.icon-btn:hover{color:var(--primary);border-color:#cfc5f5;transform:translateY(-1px)}.notification-dot{position:absolute;right:8px;top:7px;width:6px;height:6px;border-radius:50%;background:var(--primary)}.top-user{display:flex;align-items:center;gap:9px;padding-left:5px}.top-user-name{font-size:11px;font-weight:700}
+.content{padding:30px 28px 55px;max-width:1250px;margin:auto}.page-header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}.eyebrow{color:var(--primary);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}h1{font-size:30px;line-height:1.12;letter-spacing:-.05em;margin-top:6px}.page-header p{margin-top:7px;color:var(--muted);font-size:12px}
+.btn{min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 15px;border:1px solid transparent;border-radius:10px;font-size:10px;font-weight:700;transition:.2s}.btn:hover{transform:translateY(-2px)}.btn-primary{color:#fff;background:linear-gradient(135deg,var(--primary),#7653e6);box-shadow:0 9px 22px rgba(91,53,213,.20)}.btn-secondary{color:var(--text);background:var(--surface);border-color:var(--border)}.btn-danger{color:#fff;background:var(--danger);border-color:var(--danger)}
+.profile-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(300px,.6fr);gap:16px}.card{border:1px solid var(--border);border-radius:17px;background:var(--surface);box-shadow:var(--shadow-soft);overflow:hidden}.profile-card{padding:23px}.profile-hero{display:flex;align-items:center;gap:16px}.big-avatar{width:76px;height:76px;display:grid;place-items:center;flex:0 0 auto;border-radius:22px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--violet));font-size:22px;font-weight:800;box-shadow:0 12px 28px rgba(91,53,213,.20)}.profile-name{font-size:20px;font-weight:800;letter-spacing:-.04em}.profile-email{color:var(--muted);font-size:10px;margin-top:4px}.profile-tag{display:inline-flex;margin-top:8px;padding:5px 8px;border-radius:6px;background:var(--violet-soft);color:var(--primary);font-size:7px;font-weight:800;text-transform:uppercase;letter-spacing:.07em}.hero-actions{margin-left:auto}.section{margin-top:24px}.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.section-title h2{font-size:13px;letter-spacing:-.02em}.section-title p{color:var(--muted);font-size:9px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.info{padding:13px;border:1px solid var(--border);border-radius:11px;background:var(--surface-2)}.info label{display:block;color:var(--muted);font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}.info-value{display:block;margin-top:5px;font-size:10px;font-weight:700;word-break:break-word}.info-value.empty{color:var(--muted);font-weight:500}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.stat{padding:13px;border:1px solid var(--border);border-radius:11px;background:var(--surface-2)}.stat-icon{width:28px;height:28px;display:grid;place-items:center;border-radius:8px;background:var(--violet-soft);color:var(--primary);font-size:10px}.stat strong{display:block;margin-top:10px;font-size:18px;letter-spacing:-.04em}.stat span{display:block;margin-top:1px;color:var(--muted);font-size:8px}
+.security{padding:19px}.security-row{display:flex;align-items:center;gap:13px;padding:14px 0;border-bottom:1px solid var(--border)}.security-row:last-child{border-bottom:0;padding-bottom:0}.security-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:var(--violet-soft);color:var(--primary);font-size:12px}.security-row h3{font-size:11px}.security-row p{color:var(--muted);font-size:8px;margin-top:3px;line-height:1.5}.security-row .btn{margin-left:auto;min-height:34px;font-size:8px}
+.note{margin-top:14px;padding:12px;border-radius:10px;background:rgba(91,53,213,.06);border:1px solid rgba(91,53,213,.12);color:var(--muted);font-size:8px;line-height:1.6}.note strong{color:var(--text)}
+.modal-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(8,10,24,.50);z-index:250}.modal-backdrop.open{display:flex}.modal{width:min(590px,100%);max-height:92vh;overflow:auto;border:1px solid var(--border);border-radius:20px;background:var(--surface);box-shadow:var(--shadow)}.modal-header{display:flex;align-items:center;justify-content:space-between;padding:21px 22px;border-bottom:1px solid var(--border)}.modal-header h2{font-size:17px;letter-spacing:-.03em}.modal-header p{color:var(--muted);font-size:9px;margin-top:3px}.close-btn{width:32px;height:32px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--muted)}.modal-body{padding:22px}.field{margin-bottom:14px}.field label{display:block;margin-bottom:7px;font-size:10px;font-weight:800}.field input{width:100%;height:40px;padding:0 11px;border:1px solid var(--border);border-radius:9px;background:var(--surface-2);color:var(--text);outline:none;font-size:11px}.field input:focus{border-color:var(--violet)}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modal-footer{display:flex;justify-content:flex-end;gap:8px;padding:15px 22px;border-top:1px solid var(--border)}.demo-warning{padding:12px;border:1px solid rgba(185,120,25,.20);background:rgba(185,120,25,.07);border-radius:10px;color:var(--muted);font-size:9px;line-height:1.6}.demo-warning strong{color:var(--text)}
+.toast{position:fixed;right:24px;bottom:24px;z-index:400;padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--surface);box-shadow:var(--shadow);font-size:10px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1000px){.profile-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(5,minmax(90px,1fr));overflow:auto}.stat{min-width:100px}}
+@media(max-width:850px){.sidebar{transform:translateX(-100%);box-shadow:var(--shadow)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobile-menu{display:grid}.overlay.show{display:block;position:fixed;inset:0;background:rgba(10,12,25,.35);z-index:95}.topbar{padding:0 16px}.top-user-name{display:none}.content{padding:24px 16px 40px}}
+@media(max-width:600px){.page-header{align-items:flex-start;flex-direction:column}.page-header .btn{width:100%}.profile-hero{align-items:flex-start;flex-wrap:wrap}.hero-actions{width:100%;margin-left:0}.hero-actions .btn{width:100%}.info-grid,.two-col{grid-template-columns:1fr}.content{padding-left:13px;padding-right:13px}.top-user{display:none}}
+</style>
+</head>
+<body>
+<div class="overlay" id="overlay"></div>
+<aside class="sidebar" id="sidebar">
+ <a class="brand" href="dashboard.html"><span class="brand-mark"><i class="fa-solid fa-layer-group"></i></span>StudyHub</a>
+ <div class="side-label">Workspace</div>
+ <nav class="nav" aria-label="Workspace navigation">
+  <a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i>Dashboard</a><a href="documents.html"><i class="fa-regular fa-folder-open"></i>My Documents</a><a href="notes.html"><i class="fa-regular fa-note-sticky"></i>My Notes</a><a href="tasks.html"><i class="fa-regular fa-square-check"></i>Task Tracker</a><a href="calendar.html"><i class="fa-regular fa-calendar-days"></i>Calendar</a><a href="favorites.html"><i class="fa-regular fa-star"></i>Favorites</a><a href="search.html"><i class="fa-solid fa-magnifying-glass"></i>Search</a>
+ </nav>
+ <div class="sidebar-spacer"></div>
+ <div class="account"><div class="side-label">Account</div><div class="user-mini"><div class="avatar" id="sideAvatar">AK</div><div><strong id="sideName">Alex Khan</strong><span>Student account</span></div></div><div class="account-links"><a class="account-link active" href="profile.html"><i class="fa-regular fa-user"></i>Profile</a><a class="account-link" href="settings.html"><i class="fa-solid fa-gear"></i>Settings</a></div></div>
+</aside>
+
+<div class="main">
+<header class="topbar">
+ <button class="icon-btn mobile-menu" id="menuBtn" aria-label="Open sidebar"><i class="fa-solid fa-bars"></i></button>
+ <form class="top-search" id="globalSearchForm" action="search.html" method="get"><i class="fa-solid fa-magnifying-glass"></i><input name="q" id="globalSearch" type="search" placeholder="Search documents, notes, tasks..." autocomplete="off"></form>
+ <div class="top-actions"><button class="icon-btn" id="notificationBtn" aria-label="View notifications" title="Notifications"><i class="fa-regular fa-bell"></i><span class="notification-dot" id="notificationDot"></span></button><button class="icon-btn" id="themeBtn" aria-label="Switch theme" title="Switch theme"><i class="fa-solid fa-moon"></i></button><a class="top-user" href="profile.html"><div class="avatar" id="topAvatar">AK</div><span class="top-user-name" id="topName">Alex Khan</span></a></div>
+</header>
+
+<main class="content">
+ <section class="page-header"><div><div class="eyebrow">Account</div><h1>Profile</h1><p>Manage your personal information and view your StudyHub activity.</p></div><button class="btn btn-primary" id="editProfileBtn"><i class="fa-solid fa-pen"></i>Edit Profile</button></section>
+
+ <div class="profile-grid">
+  <section class="card profile-card">
+   <div class="profile-hero"><div class="big-avatar" id="bigAvatar">AK</div><div><div class="profile-name" id="profileName">Alex Khan</div><div class="profile-email" id="profileEmail">alex@example.com</div><span class="profile-tag">Student account</span></div><div class="hero-actions"><button class="btn btn-secondary" id="editProfileBtn2"><i class="fa-solid fa-user-pen"></i> Edit details</button></div></div>
+
+   <div class="section"><div class="section-title"><div><h2>Personal information</h2><p>Your saved profile details.</p></div></div>
+    <div class="info-grid">
+     <div class="info"><label>Full name</label><span class="info-value" id="infoName">—</span></div><div class="info"><label>Email</label><span class="info-value" id="infoEmail">—</span></div>
+     <div class="info"><label>Phone</label><span class="info-value" id="infoPhone">—</span></div><div class="info"><label>University</label><span class="info-value" id="infoUniversity">—</span></div>
+     <div class="info"><label>Department</label><span class="info-value" id="infoDepartment">—</span></div><div class="info"><label>Student ID</label><span class="info-value" id="infoStudentId">—</span></div>
+    </div>
+   </div>
+
+   <div class="section"><div class="section-title"><div><h2>Profile statistics</h2><p>Live counts from your shared StudyHub data.</p></div></div>
+    <div class="stats">
+     <div class="stat"><div class="stat-icon"><i class="fa-regular fa-folder-open"></i></div><strong id="statDocs">0</strong><span>Documents</span></div>
+     <div class="stat"><div class="stat-icon"><i class="fa-regular fa-note-sticky"></i></div><strong id="statNotes">0</strong><span>Notes</span></div>
+     <div class="stat"><div class="stat-icon"><i class="fa-regular fa-square-check"></i></div><strong id="statTasks">0</strong><span>Tasks</span></div>
+     <div class="stat"><div class="stat-icon"><i class="fa-solid fa-check-double"></i></div><strong id="statCompleted">0</strong><span>Completed</span></div>
+     <div class="stat"><div class="stat-icon"><i class="fa-solid fa-star"></i></div><strong id="statFavorites">0</strong><span>Favorites</span></div>
+    </div>
+   </div>
+  </section>
+
+  <aside class="card security">
+   <div class="section-title"><div><h2>Security</h2><p>Frontend demo account controls.</p></div></div>
+   <div class="security-row"><div class="security-icon"><i class="fa-solid fa-key"></i></div><div><h3>Change password</h3><p>Update your local demo password.</p></div><button class="btn btn-secondary" id="changePasswordBtn">Change</button></div>
+   <div class="security-row"><div class="security-icon"><i class="fa-solid fa-shield-halved"></i></div><div><h3>Login / session</h3><p id="sessionInfo">Local browser session</p></div></div>
+   <div class="note"><strong>Demo environment:</strong> Profile and password changes are stored only in this browser using localStorage. There is no real server authentication, password reset service, or account backend connected to this page.</div>
+  </aside>
+ </div>
+</main>
+</div>
+
+<!-- Edit profile modal -->
+<div class="modal-backdrop" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+ <div class="modal"><div class="modal-header"><div><h2 id="profileModalTitle">Edit profile</h2><p>Update details used throughout StudyHub.</p></div><button class="close-btn" data-close="profileModal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div>
+ <form id="profileForm"><div class="modal-body">
+  <div class="field"><label for="name">Name</label><input id="name" maxlength="100" required></div>
+  <div class="field"><label for="email">Email</label><input id="email" type="email" maxlength="160" required></div>
+  <div class="field"><label for="phone">Phone</label><input id="phone" type="tel" maxlength="40" placeholder="+92 300 1234567"></div>
+  <div class="field"><label for="university">University</label><input id="university" maxlength="150" placeholder="University name"></div>
+  <div class="two-col"><div class="field"><label for="department">Department</label><input id="department" maxlength="120" placeholder="Computer Science"></div><div class="field"><label for="studentId">Student ID</label><input id="studentId" maxlength="80" placeholder="Student ID"></div></div>
+ </div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-close="profileModal">Cancel</button><button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i>Save Profile</button></div></form>
+ </div>
+</div>
+
+<!-- Password demo modal -->
+<div class="modal-backdrop" id="passwordModal" role="dialog" aria-modal="true" aria-labelledby="passwordTitle">
+ <div class="modal"><div class="modal-header"><div><h2 id="passwordTitle">Change password</h2><p>Frontend-only demo credential update.</p></div><button class="close-btn" data-close="passwordModal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div>
+ <form id="passwordForm"><div class="modal-body">
+  <div class="demo-warning"><strong>Local demo only.</strong> This does not change a real StudyHub account password. The demo stores a password-change marker in your browser and should not be used for a real credential.</div>
+  <div class="field" style="margin-top:14px"><label for="currentPassword">Current demo password</label><input id="currentPassword" type="password" required autocomplete="current-password"></div>
+  <div class="field"><label for="newPassword">New demo password</label><input id="newPassword" type="password" minlength="6" required autocomplete="new-password"></div>
+  <div class="field"><label for="confirmPassword">Confirm new password</label><input id="confirmPassword" type="password" minlength="6" required autocomplete="new-password"></div>
+ </div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-close="passwordModal">Cancel</button><button type="submit" class="btn btn-primary"><i class="fa-solid fa-shield-halved"></i>Save Demo Change</button></div></form>
+ </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(() => {
+ const $=id=>document.getElementById(id);
+ const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
+ const write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
+ const profileKey="studyhub-user";
+ const defaults={name:"Alex Khan",email:"alex@example.com",phone:"",university:"",department:"",studentId:""};
+ let profile={...defaults,...(read(profileKey,{} )||{})};
+
+ function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+ function initials(name){return String(name||"User").trim().split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase()||"U"}
+ function setText(id,value,empty=false){const el=$(id);el.textContent=value||"—";el.classList.toggle("empty",empty||!value)}
+
+ function loadDocuments(){for(const key of ["studyhub-documents","studyhub-docs","documents"]){const a=read(key,null);if(Array.isArray(a))return a}return[]}
+ function loadStats(){
+  const docs=loadDocuments(),notes=read("studyhub-notes",[]),tasks=read("studyhub-tasks",[]);
+  const favorites=[...docs.map(x=>!!(x.favorite??x.isFavorite)),...notes.map(x=>!!x.favorite),...tasks.map(x=>!!(x.favorite??x.isFavorite))].filter(Boolean).length;
+  $("statDocs").textContent=docs.length;$("statNotes").textContent=notes.length;$("statTasks").textContent=tasks.length;$("statCompleted").textContent=tasks.filter(x=>!!x.completed).length;$("statFavorites").textContent=favorites;
+ }
+ function renderProfile(){
+  const ini=initials(profile.name);
+  $("sideName").textContent=profile.name;$("topName").textContent=profile.name;$("sideAvatar").textContent=ini;$("topAvatar").textContent=ini;
+  $("bigAvatar").textContent=ini;$("profileName").textContent=profile.name;$("profileEmail").textContent=profile.email||"No email saved";
+  setText("infoName",profile.name);setText("infoEmail",profile.email);setText("infoPhone",profile.phone,true);setText("infoUniversity",profile.university,true);setText("infoDepartment",profile.department,true);setText("infoStudentId",profile.studentId,true);
+  $("sessionInfo").textContent=`Local browser session · Profile saved ${localStorage.getItem(profileKey)?"locally":"using defaults"}`;
+  loadStats();
+ }
+ renderProfile();
+
+ // Shared StudyHub theme.
+ const root=document.documentElement,saved=localStorage.getItem("studyhub-theme");
+ if(saved==="dark"||(!saved&&matchMedia("(prefers-color-scheme: dark)").matches))root.classList.add("dark");
+ function themeUI(){const dark=root.classList.contains("dark");$("themeBtn").innerHTML=dark?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>';$("themeBtn").title=dark?"Switch to light mode":"Switch to dark mode"}
+ themeUI();$("themeBtn").onclick=()=>{root.classList.toggle("dark");localStorage.setItem("studyhub-theme",root.classList.contains("dark")?"dark":"light");themeUI()};
+
+ function closeSidebar(){$("sidebar").classList.remove("open");$("overlay").classList.remove("show")}
+ $("menuBtn").onclick=()=>{$("sidebar").classList.add("open");$("overlay").classList.add("show")};$("overlay").onclick=closeSidebar;
+ $("globalSearchForm").onsubmit=e=>{if(!$("globalSearch").value.trim()){e.preventDefault();location.href="search.html"}};
+ $("notificationBtn").onclick=()=>{loadStats();showToast("Profile activity counts are synced from your local StudyHub data.");$("notificationDot").style.display="none"};
+ document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
+ document.querySelectorAll(".modal-backdrop").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)closeModal(m.id)}));
+ document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal-backdrop.open").forEach(m=>closeModal(m.id))});
+ function openModal(id){$(id).classList.add("open");document.body.style.overflow="hidden"}
+ function closeModal(id){$(id).classList.remove("open");if(!document.querySelector(".modal-backdrop.open"))document.body.style.overflow=""}
+
+ function fillForm(){
+  $("name").value=profile.name||"";$("email").value=profile.email||"";$("phone").value=profile.phone||"";$("university").value=profile.university||"";$("department").value=profile.department||"";$("studentId").value=profile.studentId||"";
+ }
+ function openProfile(){fillForm();openModal("profileModal");setTimeout(()=>$("name").focus(),50)}
+ $("editProfileBtn").onclick=openProfile;$("editProfileBtn2").onclick=openProfile;
+ $("profileForm").onsubmit=e=>{
+  e.preventDefault();
+  profile={...profile,name:$("name").value.trim(),email:$("email").value.trim(),phone:$("phone").value.trim(),university:$("university").value.trim(),department:$("department").value.trim(),studentId:$("studentId").value.trim()};
+  if(!profile.name||!profile.email){showToast("Name and email are required.");return}
+  write(profileKey,profile);renderProfile();closeModal("profileModal");showToast("Profile saved across StudyHub.");
+  window.dispatchEvent(new StorageEvent("storage",{key:profileKey,newValue:JSON.stringify(profile)}));
+ };
+ $("changePasswordBtn").onclick=()=>{ $("currentPassword").value="";$("newPassword").value="";$("confirmPassword").value="";openModal("passwordModal");setTimeout(()=>$("currentPassword").focus(),50)};
+ $("passwordForm").onsubmit=e=>{
+  e.preventDefault();const current=$("currentPassword").value,newPass=$("newPassword").value,confirm=$("confirmPassword").value;
+  // Frontend demo deliberately does not expose or compare a real password.
+  if(newPass.length<6){showToast("Demo password must be at least 6 characters.");return}
+  if(newPass!==confirm){showToast("New passwords do not match.");return}
+  if(!current){showToast("Enter the current demo password.");return}
+  write("studyhub-password-demo",{changedAt:new Date().toISOString(),active:true});closeModal("passwordModal");showToast("Demo password change saved locally. No real backend was contacted.");
+ };
+ window.addEventListener("storage",e=>{if(e.key===profileKey){profile={...defaults,...read(profileKey,{})};renderProfile()}if(["studyhub-documents","studyhub-docs","documents","studyhub-notes","studyhub-tasks"].includes(e.key))loadStats()});
+})();
+</script>
+</body>
+</html>

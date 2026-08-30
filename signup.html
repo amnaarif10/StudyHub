@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Create your StudyHub student productivity workspace.">
+<title>StudyHub — Create Account</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root{--primary:#5b35d5;--primary-2:#7653e6;--violet:#8b6ff0;--violet-soft:#eee9ff;--bg:#f7f7fb;--surface:#fff;--surface-2:#faf9ff;--text:#17172a;--muted:#6b6b7d;--border:#e6e4ee;--danger:#c24d5a;--warning:#b97819;--success:#23855d;--shadow:0 24px 70px rgba(39,26,91,.14)}
+html.dark{--bg:#090d1b;--surface:#13182a;--surface-2:#171d31;--text:#f6f6fb;--muted:#a7aac0;--border:#2a3047;--violet-soft:#272044;--shadow:0 24px 70px rgba(0,0,0,.38)}
+*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)}button,input{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
+.page{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(460px,.9fr)}
+.brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:800;letter-spacing:-.04em}.brand-mark{width:37px;height:37px;display:grid;place-items:center;border-radius:11px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--violet));box-shadow:0 10px 24px rgba(91,53,213,.25)}
+.left{position:relative;overflow:hidden;padding:42px 7vw;background:linear-gradient(145deg,var(--surface),var(--violet-soft))}.left:before,.left:after{content:"";position:absolute;border-radius:50%;pointer-events:none}.left:before{width:420px;height:420px;right:-170px;top:-160px;background:rgba(139,111,240,.13)}.left:after{width:310px;height:310px;left:-180px;bottom:-160px;background:rgba(91,53,213,.08)}.left-content{position:relative;z-index:1;height:100%;max-width:620px;display:flex;flex-direction:column}.left-copy{margin:auto 0}.eyebrow{display:inline-flex;align-items:center;gap:7px;color:var(--primary);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}.eyebrow i{font-size:8px}.left h1{max-width:560px;margin-top:14px;font-size:clamp(40px,5vw,64px);line-height:1.02;letter-spacing:-.065em}.left h1 span{background:linear-gradient(135deg,var(--primary),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}.left-copy>p{max-width:500px;margin-top:17px;color:var(--muted);font-size:13px;line-height:1.75}.benefits{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:28px;max-width:500px}.benefit{padding:14px;border:1px solid var(--border);border-radius:13px;background:color-mix(in srgb,var(--surface) 88%,transparent);box-shadow:0 8px 25px rgba(38,27,92,.05)}.benefit-icon{width:32px;height:32px;display:grid;place-items:center;border-radius:9px;background:var(--violet-soft);color:var(--primary);font-size:11px}.benefit strong{display:block;margin-top:9px;font-size:10px}.benefit span{display:block;margin-top:3px;color:var(--muted);font-size:8px;line-height:1.5}.left-foot{margin-top:auto;padding-top:30px;display:flex;gap:15px;color:var(--muted);font-size:8px}.left-foot span{display:flex;align-items:center;gap:5px}.left-foot i{color:var(--primary)}
+.right{display:flex;align-items:center;justify-content:center;padding:35px;background:var(--bg)}.auth-wrap{width:min(480px,100%)}.auth-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.theme-btn{width:39px;height:39px;display:grid;place-items:center;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--muted);transition:.2s}.theme-btn:hover{color:var(--primary);border-color:#cfc5f5;transform:translateY(-1px)}
+.card{padding:29px;border:1px solid var(--border);border-radius:20px;background:var(--surface);box-shadow:var(--shadow)}.card-head h2{font-size:24px;letter-spacing:-.045em}.card-head p{margin-top:6px;color:var(--muted);font-size:9px;line-height:1.6}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.field{margin-top:15px}.field.full{grid-column:1/-1}.field label{display:block;margin-bottom:7px;font-size:8px;font-weight:800}.field-wrap{position:relative}.field-wrap>i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:10px}.field input{width:100%;height:41px;padding:0 36px;border:1px solid var(--border);border-radius:9px;outline:none;background:var(--surface-2);color:var(--text);font-size:9px;transition:.2s}.field input:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(91,53,213,.08)}.password-toggle{position:absolute;right:3px;top:3px;width:35px;height:35px;border:0;border-radius:7px;background:transparent;color:var(--muted)}.password-toggle:hover{background:var(--violet-soft);color:var(--primary)}.error{display:none;margin-top:5px;color:var(--danger);font-size:7px;line-height:1.45}.field.invalid input{border-color:rgba(194,77,90,.65)}.field.invalid .error{display:block}
+.strength{margin-top:8px}.strength-top{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:7px}.strength-label{font-weight:800}.strength-meter{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:5px}.strength-meter span{height:3px;border-radius:4px;background:var(--border)}.strength-meter span.on{background:var(--primary)}.requirements{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:7px}.requirement{color:var(--muted);font-size:7px}.requirement i{width:11px;color:var(--muted)}.requirement.pass{color:var(--success)}.requirement.pass i{color:var(--success)}
+.terms{display:flex;align-items:flex-start;gap:8px;margin-top:17px;color:var(--muted);font-size:7.5px;line-height:1.55}.terms input{width:14px;height:14px;flex:0 0 auto;accent-color:var(--primary);margin-top:1px}.terms a{color:var(--primary);font-weight:700}.terms-error{display:none;margin-top:5px;color:var(--danger);font-size:7px}.terms.invalid+.terms-error{display:block}
+.alert{display:none;margin-top:14px;padding:9px 10px;border:1px solid rgba(194,77,90,.25);border-radius:9px;background:rgba(194,77,90,.07);color:var(--danger);font-size:8px;line-height:1.5}.alert.show{display:block}.submit{width:100%;height:43px;margin-top:17px;border:0;border-radius:9px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary-2));font-size:9px;font-weight:800;box-shadow:0 10px 23px rgba(91,53,213,.20);transition:.2s}.submit:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(91,53,213,.26)}.submit:disabled{opacity:.65;cursor:not-allowed;transform:none}.login{text-align:center;margin-top:18px;color:var(--muted);font-size:8px}.login a{color:var(--primary);font-weight:800}.login a:hover{text-decoration:underline}.back{display:flex;justify-content:center;margin-top:12px;color:var(--muted);font-size:7.5px}.back:hover{color:var(--primary)}.demo-note{margin-top:14px;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--surface-2);color:var(--muted);font-size:7px;line-height:1.6}.demo-note strong{color:var(--text)}
+.toast{position:fixed;right:22px;bottom:22px;padding:11px 13px;border:1px solid var(--border);border-radius:10px;background:var(--surface);box-shadow:var(--shadow);font-size:9px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:900px){.page{grid-template-columns:1fr}.left{min-height:480px;padding:30px 7vw}.left-copy{margin:60px 0 0}.right{padding:30px 20px 45px}}
+@media(max-width:600px){.left{min-height:auto;padding:23px 18px 26px}.left-copy{margin:42px 0 0}.left h1{font-size:42px}.left-copy>p{font-size:11px}.benefits{grid-template-columns:1fr 1fr;gap:7px;margin-top:20px}.benefit{padding:10px}.benefit span{display:none}.left-foot{padding-top:20px;flex-wrap:wrap}.right{padding:20px 12px 30px}.card{padding:21px 17px;border-radius:16px}.card-head h2{font-size:21px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.requirements{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+<section class="left">
+ <div class="left-content">
+  <a class="brand" href="index.html"><span class="brand-mark"><i class="fa-solid fa-layer-group"></i></span>StudyHub</a>
+  <div class="left-copy">
+   <div class="eyebrow"><i class="fa-solid fa-sparkles"></i> Built for focused students</div>
+   <h1>Your study life, <span>organized.</span></h1>
+   <p>Bring the everyday pieces of studying into one calm workspace. Keep your files, ideas, deadlines and plans close at hand.</p>
+   <div class="benefits">
+    <div class="benefit"><div class="benefit-icon"><i class="fa-regular fa-folder-open"></i></div><strong>Documents</strong><span>Keep study files easy to find.</span></div>
+    <div class="benefit"><div class="benefit-icon"><i class="fa-regular fa-note-sticky"></i></div><strong>Notes</strong><span>Capture ideas and revision notes.</span></div>
+    <div class="benefit"><div class="benefit-icon"><i class="fa-regular fa-square-check"></i></div><strong>Tasks</strong><span>Stay ahead of assignments.</span></div>
+    <div class="benefit"><div class="benefit-icon"><i class="fa-regular fa-calendar-days"></i></div><strong>Calendar</strong><span>Plan classes and deadlines.</span></div>
+   </div>
+  </div>
+  <div class="left-foot"><span><i class="fa-solid fa-check"></i> One focused workspace</span><span><i class="fa-solid fa-check"></i> Responsive by design</span></div>
+ </div>
+</section>
+
+<section class="right">
+ <div class="auth-wrap">
+  <div class="auth-top"><a class="brand" href="index.html"><span class="brand-mark"><i class="fa-solid fa-layer-group"></i></span>StudyHub</a><button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button></div>
+  <div class="card">
+   <div class="card-head"><h2>Create your account</h2><p>Set up your personal StudyHub workspace in a few steps.</p></div>
+   <form id="signupForm" novalidate>
+    <div class="form-grid">
+     <div class="field full" id="nameField"><label for="name">Full name</label><div class="field-wrap"><i class="fa-regular fa-user"></i><input id="name" type="text" maxlength="100" autocomplete="name" placeholder="Alex Khan" required></div><div class="error">Enter your full name.</div></div>
+     <div class="field" id="emailField"><label for="email">Email</label><div class="field-wrap"><i class="fa-regular fa-envelope"></i><input id="email" type="email" maxlength="160" autocomplete="email" placeholder="you@example.com" required></div><div class="error">Enter a valid email address.</div></div>
+     <div class="field" id="universityField"><label for="university">University</label><div class="field-wrap"><i class="fa-solid fa-building-columns"></i><input id="university" type="text" maxlength="150" autocomplete="organization" placeholder="University name" required></div><div class="error">Enter your university.</div></div>
+     <div class="field" id="passwordField"><label for="password">Password</label><div class="field-wrap"><i class="fa-solid fa-lock"></i><input id="password" type="password" minlength="8" autocomplete="new-password" placeholder="Create a password" required><button class="password-toggle" id="passwordToggle" type="button" aria-label="Show password" title="Show password"><i class="fa-regular fa-eye"></i></button></div><div class="error">Use at least 8 characters with uppercase, lowercase, and a number.</div>
+      <div class="strength"><div class="strength-top"><span>Password strength</span><span class="strength-label" id="strengthLabel">—</span></div><div class="strength-meter"><span></span><span></span><span></span></div><div class="requirements"><span class="requirement" data-req="length"><i class="fa-regular fa-circle"></i> 8+ characters</span><span class="requirement" data-req="upper"><i class="fa-regular fa-circle"></i> Uppercase</span><span class="requirement" data-req="lower"><i class="fa-regular fa-circle"></i> Lowercase</span><span class="requirement" data-req="number"><i class="fa-regular fa-circle"></i> Number</span></div></div>
+     </div>
+     <div class="field" id="confirmField"><label for="confirm">Confirm password</label><div class="field-wrap"><i class="fa-solid fa-lock"></i><input id="confirm" type="password" autocomplete="new-password" placeholder="Repeat your password" required></div><div class="error">Passwords must match.</div></div>
+     <div class="field full" id="departmentField"><label for="department">Department</label><div class="field-wrap"><i class="fa-solid fa-graduation-cap"></i><input id="department" type="text" maxlength="120" autocomplete="organization-title" placeholder="Computer Science" required></div><div class="error">Enter your department.</div></div>
+    </div>
+    <label class="terms" id="termsLabel"><input id="terms" type="checkbox"><span>I agree to the StudyHub <a href="index.html#terms">terms</a> and understand this is a frontend demo stored in this browser.</span></label><div class="terms-error">You must accept the terms to create an account.</div>
+    <div class="alert" id="alert" role="alert"></div>
+    <button class="submit" id="submitBtn" type="submit">Create Account</button>
+   </form>
+   <div class="login">Already have an account? <a href="login.html">Login</a></div>
+   <a class="back" href="index.html"><i class="fa-solid fa-arrow-left"></i>&nbsp; Back to home</a>
+   <div class="demo-note"><strong>Frontend demo:</strong> This registration does not create a secure server account. Profile/session data is stored in this browser with localStorage. A real deployment needs backend authentication, secure password hashing, sessions, and account recovery.</div>
+  </div>
+ </div>
+</section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+ const $=id=>document.getElementById(id);
+ const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
+ const write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
+ const root=document.documentElement;
+
+ // Shared StudyHub theme.
+ function getTheme(){return localStorage.getItem("studyhub-theme")||"system"}
+ function applyTheme(){
+  const p=getTheme(),dark=p==="dark"||(p==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);
+  root.classList.toggle("dark",dark);
+  $("themeBtn").innerHTML=dark?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>';
+  $("themeBtn").title=dark?"Switch to light mode":"Switch to dark mode";
+ }
+ applyTheme();
+ $("themeBtn").onclick=()=>{localStorage.setItem("studyhub-theme",root.classList.contains("dark")?"light":"dark");applyTheme()};
+ matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>{if(getTheme()==="system")applyTheme()});
+
+ function validEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
+ function passwordChecks(v){return{length:v.length>=8,upper:/[A-Z]/.test(v),lower:/[a-z]/.test(v),number:/\d/.test(v)}}
+ function updateStrength(){
+  const p=$("password").value,c=passwordChecks(p),score=Object.values(c).filter(Boolean).length;
+  document.querySelectorAll("[data-req]").forEach(el=>{const pass=c[el.dataset.req];el.classList.toggle("pass",pass);el.querySelector("i").className=pass?"fa-solid fa-circle-check":"fa-regular fa-circle"});
+  document.querySelectorAll(".strength-meter span").forEach((s,i)=>s.classList.toggle("on",i<score));
+  $("strengthLabel").textContent=score===0?"—":score<=1?"Weak":score<=3?"Medium":"Strong";
+  $("strengthLabel").style.color=score===4?"var(--success)":score>=2?"var(--warning)":score?"var(--danger)":"var(--muted)";
+  $("passwordField").classList.remove("invalid");
+ }
+ $("password").oninput=updateStrength;
+
+ $("passwordToggle").onclick=()=>{
+  const input=$("password"),visible=input.type==="text";input.type=visible?"password":"text";
+  $("passwordToggle").innerHTML=visible?'<i class="fa-regular fa-eye"></i>':'<i class="fa-regular fa-eye-slash"></i>';
+  $("passwordToggle").setAttribute("aria-label",visible?"Show password":"Hide password");
+ };
+
+ function clearState(){
+  document.querySelectorAll(".field").forEach(f=>f.classList.remove("invalid"));
+  $("termsLabel").classList.remove("invalid");$("alert").classList.remove("show");$("alert").textContent="";
+ }
+ function alertMsg(msg){$("alert").textContent=msg;$("alert").classList.add("show")}
+ function showToast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2600)}
+ document.querySelectorAll(".field input").forEach(input=>input.addEventListener("input",()=>{input.closest(".field").classList.remove("invalid");$("alert").classList.remove("show")}));
+ $("terms").onchange=()=>{$("termsLabel").classList.remove("invalid");$("alert").classList.remove("show")};
+
+ $("signupForm").onsubmit=e=>{
+  e.preventDefault();clearState();
+  const name=$("name").value.trim(),email=$("email").value.trim(),password=$("password").value,confirm=$("confirm").value,university=$("university").value.trim(),department=$("department").value.trim(),terms=$("terms").checked;
+  let ok=true;
+  if(name.length<2){$("nameField").classList.add("invalid");ok=false}
+  if(!validEmail(email)){$("emailField").classList.add("invalid");ok=false}
+  if(!university){$("universityField").classList.add("invalid");ok=false}
+  const checks=passwordChecks(password),score=Object.values(checks).filter(Boolean).length;
+  if(score<4){$("passwordField").classList.add("invalid");ok=false}
+  if(confirm!==password||!confirm){$("confirmField").classList.add("invalid");ok=false}
+  if(!department){$("departmentField").classList.add("invalid");ok=false}
+  if(!terms){$("termsLabel").classList.add("invalid");ok=false}
+  if(!ok){alertMsg("Please complete the required fields and fix the highlighted errors.");return}
+
+  // Frontend demo registration: no server request and no claim of secure authentication.
+  const profile={name,email,phone:"",university,department,studentId:"",createdAt:new Date().toISOString()};
+  write("studyhub-user",profile);
+  localStorage.setItem("studyhub-authenticated","true");
+  localStorage.setItem("studyhub-session","active");
+  localStorage.setItem("studyhub-last-login",new Date().toISOString());
+  localStorage.setItem("studyhub-remembered-email",email);
+  $("submitBtn").disabled=true;$("submitBtn").textContent="Creating account…";
+  showToast("Demo account created locally.");
+  setTimeout(()=>location.href="dashboard.html",400);
+ };
+})();
+</script>
+</body>
+</html>

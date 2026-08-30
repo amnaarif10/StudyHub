@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Search documents, notes, tasks and calendar events across StudyHub.">
+<title>StudyHub — Search</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root{--primary:#5b35d5;--violet:#8b6ff0;--violet-soft:#eee9ff;--bg:#f7f7fb;--surface:#fff;--surface-2:#faf9ff;--text:#17172a;--muted:#6b6b7d;--border:#e8e7ef;--danger:#c24d5a;--warning:#b97819;--success:#23855d;--sidebar:248px;--topbar:72px;--shadow:0 18px 50px rgba(38,27,92,.10);--shadow-soft:0 7px 25px rgba(38,27,92,.06)}
+html.dark{--bg:#0c1020;--surface:#13182a;--surface-2:#171d31;--text:#f5f5fb;--muted:#a7aac0;--border:#292f46;--violet-soft:#272044;--shadow:0 18px 50px rgba(0,0,0,.30);--shadow-soft:0 8px 25px rgba(0,0,0,.22)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}button,input{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
+.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);padding:20px 15px;background:var(--surface);border-right:1px solid var(--border);z-index:100;display:flex;flex-direction:column;transition:transform .25s}.brand{display:flex;align-items:center;gap:10px;padding:5px 10px 30px;font-weight:800;font-size:19px;letter-spacing:-.04em}.brand-mark{width:35px;height:35px;display:grid;place-items:center;border-radius:11px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--violet));box-shadow:0 8px 20px rgba(91,53,213,.24)}
+.side-label{padding:0 11px;margin:4px 0 8px;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em}.nav{display:grid;gap:3px}.nav a,.account-link{display:flex;align-items:center;gap:12px;padding:11px;border-radius:11px;color:var(--muted);font-size:12px;font-weight:600;transition:.2s}.nav a i,.account-link i{width:18px;text-align:center;font-size:13px}.nav a:hover,.account-link:hover,.nav a.active{color:var(--primary);background:var(--violet-soft)}.sidebar-spacer{flex:1}.account{border-top:1px solid var(--border);padding-top:15px}.user-mini{display:flex;align-items:center;gap:10px;margin:0 7px 12px}.avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;color:#fff;background:linear-gradient(135deg,#6d4de0,#9278ed);font-size:11px;font-weight:800}.user-mini strong{display:block;font-size:11px}.user-mini span{display:block;color:var(--muted);font-size:9px}.account-links{display:grid;gap:2px}
+.main{margin-left:var(--sidebar);min-height:100vh}.topbar{position:sticky;top:0;z-index:90;height:var(--topbar);display:flex;align-items:center;gap:14px;padding:0 28px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}.mobile-menu{display:none}.top-search{position:relative;flex:1;max-width:470px}.top-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}.top-search input{width:100%;height:40px;padding:0 14px 0 37px;border:1px solid var(--border);border-radius:11px;outline:none;background:var(--surface);color:var(--text);font-size:12px}.top-search input:focus{border-color:var(--violet)}.top-actions{margin-left:auto;display:flex;align-items:center;gap:9px}.icon-btn{position:relative;width:39px;height:39px;display:grid;place-items:center;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--muted);transition:.2s}.icon-btn:hover{color:var(--primary);border-color:#cfc5f5;transform:translateY(-1px)}.notification-dot{position:absolute;right:8px;top:7px;width:6px;height:6px;border-radius:50%;background:var(--primary)}.top-user{display:flex;align-items:center;gap:9px;padding-left:5px}.top-user-name{font-size:11px;font-weight:700}
+.content{padding:35px 28px 60px;max-width:1180px;margin:auto}.hero{text-align:center;max-width:760px;margin:8px auto 25px}.eyebrow{color:var(--primary);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.hero h1{font-size:38px;line-height:1.1;letter-spacing:-.055em;margin-top:8px}.hero p{margin:9px auto 0;color:var(--muted);font-size:12px;max-width:560px}
+.search-box{position:relative;margin:25px auto 18px;max-width:760px}.search-box i{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--muted)}.search-box input{width:100%;height:62px;padding:0 55px 0 53px;border:1px solid var(--border);border-radius:17px;background:var(--surface);color:var(--text);outline:none;font-size:14px;box-shadow:var(--shadow)}.search-box input:focus{border-color:var(--violet);box-shadow:0 18px 55px rgba(91,53,213,.13)}.clear-search{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:35px;height:35px;border:0;border-radius:9px;background:transparent;color:var(--muted);display:none}.clear-search.show{display:grid;place-items:center}.clear-search:hover{background:var(--violet-soft);color:var(--primary)}
+.tabs{display:flex;justify-content:center;gap:6px;margin-bottom:24px;overflow:auto;padding-bottom:2px}.tab{height:36px;padding:0 13px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--muted);font-size:9px;font-weight:700;white-space:nowrap}.tab:hover{color:var(--primary);border-color:#cfc5f5}.tab.active{background:var(--violet-soft);border-color:transparent;color:var(--primary)}
+.results-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;color:var(--muted);font-size:10px}.results-head strong{color:var(--text)}.results{display:grid;gap:9px}.result{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:15px 17px;border:1px solid var(--border);border-radius:14px;background:var(--surface);box-shadow:var(--shadow-soft);transition:.2s}.result:hover{transform:translateY(-2px);border-color:#d5cdf5;box-shadow:var(--shadow)}.result-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:11px;background:var(--violet-soft);color:var(--primary);font-size:14px}.result-icon.document{color:#d34e61;background:rgba(211,78,97,.10)}.result-icon.task{color:var(--warning);background:rgba(185,120,25,.10)}.result-icon.event{color:var(--success);background:rgba(35,133,93,.10)}
+.result-main{min-width:0}.result-title{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.result-preview{margin-top:4px;color:var(--muted);font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.result-meta{display:flex;flex-wrap:wrap;gap:5px 10px;margin-top:7px}.meta{font-size:8px;color:var(--muted)}.type-badge{padding:4px 7px;border-radius:6px;background:var(--surface-2);color:var(--muted);font-size:7px;font-weight:800}.result-action{height:33px;padding:0 11px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);font-size:9px;font-weight:700;white-space:nowrap}.result-action:hover{color:var(--primary);border-color:#cfc5f5;background:var(--violet-soft)}
+.empty{padding:75px 20px;text-align:center;border:1px dashed var(--border);border-radius:16px;background:var(--surface)}.empty-icon{width:55px;height:55px;margin:0 auto 13px;display:grid;place-items:center;border-radius:15px;background:var(--violet-soft);color:var(--primary);font-size:16px}.empty h3{font-size:14px}.empty p{max-width:450px;margin:6px auto;color:var(--muted);font-size:10px;line-height:1.65}.hint-list{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin-top:14px}.hint{padding:7px 9px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--muted);font-size:8px}
+.toast{position:fixed;right:24px;bottom:24px;z-index:400;padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--surface);box-shadow:var(--shadow);font-size:10px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:850px){.sidebar{transform:translateX(-100%);box-shadow:var(--shadow)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobile-menu{display:grid}.overlay.show{display:block;position:fixed;inset:0;background:rgba(10,12,25,.35);z-index:95}.topbar{padding:0 16px}.top-user-name{display:none}.content{padding:27px 16px 45px}}
+@media(max-width:600px){.hero h1{font-size:31px}.search-box input{height:55px;font-size:12px}.tabs{justify-content:flex-start}.result{grid-template-columns:auto minmax(0,1fr)}.result-action{grid-column:2;justify-self:start}.top-user{display:none}.content{padding-left:13px;padding-right:13px}}
+</style>
+</head>
+<body>
+<div class="overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+ <a class="brand" href="dashboard.html"><span class="brand-mark"><i class="fa-solid fa-layer-group"></i></span>StudyHub</a>
+ <div class="side-label">Workspace</div>
+ <nav class="nav" aria-label="Workspace navigation">
+  <a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i>Dashboard</a>
+  <a href="documents.html"><i class="fa-regular fa-folder-open"></i>My Documents</a>
+  <a href="notes.html"><i class="fa-regular fa-note-sticky"></i>My Notes</a>
+  <a href="tasks.html"><i class="fa-regular fa-square-check"></i>Task Tracker</a>
+  <a href="calendar.html"><i class="fa-regular fa-calendar-days"></i>Calendar</a>
+  <a href="favorites.html"><i class="fa-regular fa-star"></i>Favorites</a>
+  <a class="active" href="search.html"><i class="fa-solid fa-magnifying-glass"></i>Search</a>
+ </nav>
+ <div class="sidebar-spacer"></div>
+ <div class="account">
+  <div class="side-label">Account</div>
+  <div class="user-mini"><div class="avatar" id="sideAvatar">AK</div><div><strong id="sideName">Alex Khan</strong><span>Student account</span></div></div>
+  <div class="account-links"><a class="account-link" href="profile.html"><i class="fa-regular fa-user"></i>Profile</a><a class="account-link" href="settings.html"><i class="fa-solid fa-gear"></i>Settings</a></div>
+ </div>
+</aside>
+
+<div class="main">
+<header class="topbar">
+ <button class="icon-btn mobile-menu" id="menuBtn" aria-label="Open sidebar"><i class="fa-solid fa-bars"></i></button>
+ <form class="top-search" id="globalSearchForm" action="search.html" method="get"><i class="fa-solid fa-magnifying-glass"></i><input name="q" id="globalSearch" type="search" placeholder="Search documents, notes, tasks..." autocomplete="off"></form>
+ <div class="top-actions">
+  <button class="icon-btn" id="notificationBtn" aria-label="View notifications" title="Notifications"><i class="fa-regular fa-bell"></i><span class="notification-dot" id="notificationDot"></span></button>
+  <button class="icon-btn" id="themeBtn" aria-label="Switch theme" title="Switch theme"><i class="fa-solid fa-moon"></i></button>
+  <a class="top-user" href="profile.html"><div class="avatar" id="topAvatar">AK</div><span class="top-user-name" id="topName">Alex Khan</span></a>
+ </div>
+</header>
+
+<main class="content">
+ <section class="hero">
+  <div class="eyebrow">One search for your entire workspace</div>
+  <h1>Search StudyHub</h1>
+  <p>Find documents, notes, tasks, and calendar events without jumping between pages.</p>
+ </section>
+
+ <form class="search-box" id="searchForm">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input id="searchInput" type="search" autocomplete="off" placeholder="Search your StudyHub workspace..." aria-label="Search StudyHub">
+  <button class="clear-search" id="clearBtn" type="button" aria-label="Clear search" title="Clear search"><i class="fa-solid fa-xmark"></i></button>
+ </form>
+
+ <div class="tabs" id="tabs">
+  <button class="tab active" data-type="all">All</button>
+  <button class="tab" data-type="document">Documents</button>
+  <button class="tab" data-type="note">Notes</button>
+  <button class="tab" data-type="task">Tasks</button>
+  <button class="tab" data-type="event">Events</button>
+ </div>
+
+ <div class="results-head"><span><strong id="count">0</strong> results</span><span id="summary">Start typing to search</span></div>
+ <section class="results" id="results" aria-live="polite"></section>
+</main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+ const $=id=>document.getElementById(id);
+ const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
+ const qs=new URLSearchParams(location.search);
+ let query=qs.get("q")||sessionStorage.getItem("studyhub-search-query")||"",type=qs.get("type")||"all";
+
+ const profile=read("studyhub-user",{name:"Alex Khan"}),name=profile.name||"Alex Khan";
+ const initials=name.trim().split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase();
+ $("sideName").textContent=name;$("topName").textContent=name;$("sideAvatar").textContent=initials;$("topAvatar").textContent=initials;
+
+ // Shared theme.
+ const root=document.documentElement,saved=localStorage.getItem("studyhub-theme");
+ if(saved==="dark"||(!saved&&matchMedia("(prefers-color-scheme: dark)").matches))root.classList.add("dark");
+ function themeUI(){const dark=root.classList.contains("dark");$("themeBtn").innerHTML=dark?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>';$("themeBtn").title=dark?"Switch to light mode":"Switch to dark mode"}
+ themeUI();$("themeBtn").onclick=()=>{root.classList.toggle("dark");localStorage.setItem("studyhub-theme",root.classList.contains("dark")?"dark":"light");themeUI()};
+
+ function closeSidebar(){$("sidebar").classList.remove("open");$("overlay").classList.remove("show")}
+ $("menuBtn").onclick=()=>{$("sidebar").classList.add("open");$("overlay").classList.add("show")};$("overlay").onclick=closeSidebar;
+
+ function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+ function strip(html){const d=document.createElement("div");d.innerHTML=html||"";return d.textContent||""}
+ function fmtDate(v){if(!v)return"Unknown";const d=new Date(v);if(Number.isNaN(d.getTime()))return String(v);return d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}
+ function taskDate(v){if(!v)return"Unknown";const [y,m,d]=String(v).slice(0,10).split("-").map(Number);return new Date(y,m-1,d,12).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}
+
+ function docs(){
+  const keys=["studyhub-documents","studyhub-docs","documents"];
+  for(const key of keys){const a=read(key,null);if(Array.isArray(a))return a}
+  return [];
+ }
+ function data(){
+  const documents=docs().map(d=>({type:"document",id:String(d.id??d.name??d.fileName),title:d.name||d.fileName||"Untitled document",preview:`${d.fileType||d.typeLabel||"File"}${d.size?" · "+d.size:""}`,date:d.uploadDate||d.createdAt||d.updatedAt||"",meta:d.fileType||d.typeLabel||"Document",target:`documents.html?id=${encodeURIComponent(d.id??d.name??d.fileName)}`,action:"Open"}));
+  const notes=read("studyhub-notes",[]).map(n=>({type:"note",id:String(n.id),title:n.title||"Untitled note",preview:strip(n.content)||"No note content",date:n.updatedAt||n.createdAt||"",meta:n.category||"Note",target:`notes.html?id=${encodeURIComponent(n.id)}`,action:"Open"}));
+  const tasks=read("studyhub-tasks",[]).map(t=>({type:"task",id:String(t.id),title:t.title||"Untitled task",preview:t.description||"Task",date:t.dueDate||t.createdAt||"",meta:`${t.priority||"Medium"} priority`,target:`tasks.html?id=${encodeURIComponent(t.id)}`,action:"Open"}));
+  const events=read("studyhub-events",[]).map(e=>({type:"event",id:String(e.id),title:e.title||"Untitled event",preview:e.description||"Calendar event",date:e.date||"",meta:e.category||"Event",target:`calendar.html?date=${encodeURIComponent(e.date||"")}`,action:"Open"}));
+  return [...documents,...notes,...tasks,...events];
+ }
+ function icon(type){return type==="document"?"fa-file-lines":type==="note"?"fa-note-sticky":type==="task"?"fa-square-check":"fa-calendar-days"}
+ function typeLabel(t){return {document:"Document",note:"Note",task:"Task",event:"Event"}[t]}
+
+ function saveQuery(){
+  query=$("searchInput").value.trim();sessionStorage.setItem("studyhub-search-query",query);
+  const url=new URL(location.href);query?url.searchParams.set("q",query):url.searchParams.delete("q");type!=="all"?url.searchParams.set("type",type):url.searchParams.delete("type");
+  history.replaceState({}, "", url);
+ }
+ function render(){
+  $("searchInput").value=query;$("globalSearch").value=query;$("clearBtn").classList.toggle("show",!!query);
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.type===type));
+  const all=data();
+  const q=query.toLowerCase();
+  let matches=q?all.filter(x=>`${x.title} ${x.preview} ${x.meta} ${typeLabel(x.type)}`.toLowerCase().includes(q)):[],
+      filtered=matches.filter(x=>type==="all"||x.type===type);
+  $("count").textContent=filtered.length;
+  if(!query){$("summary").textContent="Search across documents, notes, tasks and events";$("results").innerHTML=`<div class="empty"><div class="empty-icon"><i class="fa-solid fa-magnifying-glass"></i></div><h3>Search your study workspace</h3><p>Type a title, keyword, category, task priority, or event detail to find what you need.</p><div class="hint-list"><span class="hint">assignment</span><span class="hint">lecture</span><span class="hint">exam</span><span class="hint">project</span></div></div>`;return}
+  $("summary").textContent=type==="all"?"Across your entire workspace":`In ${typeLabel(type).toLowerCase()}s`;
+  if(!filtered.length){$("results").innerHTML=`<div class="empty"><div class="empty-icon"><i class="fa-regular fa-face-frown"></i></div><h3>No results found</h3><p>No ${type==="all"?"items":typeLabel(type).toLowerCase()+"s"} matched “${esc(query)}”. Try a different keyword or search all categories.</p></div>`;return}
+  filtered.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+  $("results").innerHTML=filtered.map(x=>`<article class="result"><div class="result-icon ${x.type}"><i class="fa-regular ${icon(x.type)}"></i></div><div class="result-main"><div class="result-title" title="${esc(x.title)}">${esc(x.title)}</div><div class="result-preview">${esc(x.preview)}</div><div class="result-meta"><span class="type-badge">${typeLabel(x.type)}</span><span class="meta"><i class="fa-regular fa-calendar"></i> ${esc(x.type==="task"?taskDate(x.date):fmtDate(x.date))}</span><span class="meta">${esc(x.meta)}</span></div></div><button class="result-action" data-target="${esc(x.target)}"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${x.action}</button></article>`).join("");
+ }
+ $("searchForm").onsubmit=e=>{e.preventDefault();saveQuery();render()};
+ $("searchInput").oninput=()=>{saveQuery();render()};
+ $("clearBtn").onclick=()=>{$("searchInput").value="";saveQuery();render();$("searchInput").focus()};
+ $("globalSearch").oninput=()=>{query=$("globalSearch").value.trim();saveQuery();render()};
+ $("globalSearchForm").onsubmit=e=>{e.preventDefault();query=$("globalSearch").value.trim();saveQuery();render()};
+ $("tabs").onclick=e=>{const b=e.target.closest(".tab");if(!b)return;type=b.dataset.type;saveQuery();render()};
+ $("results").onclick=e=>{const b=e.target.closest("[data-target]");if(b)location.href=b.dataset.target};
+ $("notificationBtn").onclick=()=>{const count=data().length;showToast(count?`${count} items are available to search.`:"Your workspace is ready for search.");$("notificationDot").style.display="none"};
+ window.addEventListener("storage",e=>{if(["studyhub-documents","studyhub-docs","documents","studyhub-notes","studyhub-tasks","studyhub-events"].includes(e.key))render()});
+ render();
+
+ function showToast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2400)}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="StudyHub favorites — quick access to important documents, notes and tasks.">
+<title>StudyHub — Favorites</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root{--primary:#5b35d5;--violet:#8b6ff0;--violet-soft:#eee9ff;--bg:#f7f7fb;--surface:#fff;--surface-2:#faf9ff;--text:#17172a;--muted:#6b6b7d;--border:#e8e7ef;--danger:#c24d5a;--success:#23855d;--warning:#b97819;--sidebar:248px;--topbar:72px;--shadow:0 18px 50px rgba(38,27,92,.10);--shadow-soft:0 7px 25px rgba(38,27,92,.06)}
+html.dark{--bg:#0c1020;--surface:#13182a;--surface-2:#171d31;--text:#f5f5fb;--muted:#a7aac0;--border:#292f46;--violet-soft:#272044;--shadow:0 18px 50px rgba(0,0,0,.30);--shadow-soft:0 8px 25px rgba(0,0,0,.22)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}button,input{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
+.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);padding:20px 15px;background:var(--surface);border-right:1px solid var(--border);z-index:100;display:flex;flex-direction:column;transition:transform .25s}.brand{display:flex;align-items:center;gap:10px;padding:5px 10px 30px;font-weight:800;font-size:19px;letter-spacing:-.04em}.brand-mark{width:35px;height:35px;display:grid;place-items:center;border-radius:11px;color:#fff;background:linear-gradient(135deg,var(--primary),var(--violet));box-shadow:0 8px 20px rgba(91,53,213,.24)}
+.side-label{padding:0 11px;margin:4px 0 8px;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em}.nav{display:grid;gap:3px}.nav a,.account-link{display:flex;align-items:center;gap:12px;padding:11px;border-radius:11px;color:var(--muted);font-size:12px;font-weight:600;transition:.2s}.nav a i,.account-link i{width:18px;text-align:center;font-size:13px}.nav a:hover,.account-link:hover,.nav a.active{color:var(--primary);background:var(--violet-soft)}.sidebar-spacer{flex:1}.account{border-top:1px solid var(--border);padding-top:15px}.user-mini{display:flex;align-items:center;gap:10px;margin:0 7px 12px}.avatar{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;color:#fff;background:linear-gradient(135deg,#6d4de0,#9278ed);font-size:11px;font-weight:800}.user-mini strong{display:block;font-size:11px}.user-mini span{display:block;color:var(--muted);font-size:9px}.account-links{display:grid;gap:2px}
+.main{margin-left:var(--sidebar);min-height:100vh}.topbar{position:sticky;top:0;z-index:90;height:var(--topbar);display:flex;align-items:center;gap:14px;padding:0 28px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}.mobile-menu{display:none}.top-search{position:relative;flex:1;max-width:470px}.top-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}.top-search input{width:100%;height:40px;padding:0 14px 0 37px;border:1px solid var(--border);border-radius:11px;outline:none;background:var(--surface);color:var(--text);font-size:12px}.top-search input:focus{border-color:var(--violet)}.top-actions{margin-left:auto;display:flex;align-items:center;gap:9px}.icon-btn{position:relative;width:39px;height:39px;display:grid;place-items:center;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--muted);transition:.2s}.icon-btn:hover{color:var(--primary);border-color:#cfc5f5;transform:translateY(-1px)}.notification-dot{position:absolute;right:8px;top:7px;width:6px;height:6px;border-radius:50%;background:var(--primary)}.top-user{display:flex;align-items:center;gap:9px;padding-left:5px}.top-user-name{font-size:11px;font-weight:700}
+.content{padding:30px 28px 50px;max-width:1500px}.page-header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:23px}.eyebrow{color:var(--primary);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}h1{font-size:30px;line-height:1.12;letter-spacing:-.05em;margin-top:6px}.page-header p{margin-top:7px;color:var(--muted);font-size:12px}
+.controls{display:flex;align-items:center;gap:10px;margin-bottom:18px}.search{position:relative;flex:1}.search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:11px}.search input{width:100%;height:42px;padding:0 13px 0 36px;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--text);outline:none;font-size:11px;box-shadow:var(--shadow-soft)}.search input:focus{border-color:var(--violet)}.tabs{display:flex;gap:6px;overflow:auto}.tab{white-space:nowrap;height:38px;padding:0 12px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--muted);font-size:9px;font-weight:700}.tab:hover{color:var(--primary);border-color:#cfc5f5}.tab.active{background:var(--violet-soft);border-color:transparent;color:var(--primary)}
+.result-row{display:flex;justify-content:space-between;margin:0 2px 12px;color:var(--muted);font-size:10px}.result-row strong{color:var(--text)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{min-width:0;padding:18px;border:1px solid var(--border);border-radius:16px;background:var(--surface);box-shadow:var(--shadow-soft);transition:.22s}.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#d5cdf5}.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.type-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:11px;background:var(--violet-soft);color:var(--primary);font-size:14px}.type-icon.document{color:#d34e61;background:rgba(211,78,97,.10)}.type-icon.task{color:var(--warning);background:rgba(185,120,25,.10)}.favorite-btn{width:31px;height:31px;border:0;border-radius:8px;background:transparent;color:#e09a25;font-size:12px}.favorite-btn:hover{background:var(--violet-soft)}.card h3{margin-top:14px;font-size:13px;line-height:1.4;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.preview{display:-webkit-box;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:48px;margin-top:7px;color:var(--muted);font-size:9px;line-height:1.65}.badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:13px}.badge{padding:5px 7px;border-radius:6px;background:var(--surface-2);color:var(--muted);font-size:8px;font-weight:700}.badge.priority-high{color:var(--danger);background:rgba(194,77,90,.10)}.badge.priority-medium{color:var(--warning);background:rgba(185,120,25,.10)}.badge.priority-low{color:var(--success);background:rgba(35,133,93,.10)}.card-meta{margin-top:13px;padding-top:11px;border-top:1px solid var(--border);color:var(--muted);font-size:8px;display:flex;align-items:center;gap:6px}.card-actions{display:flex;gap:7px;margin-top:13px}.action{flex:1;height:34px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);font-size:9px;font-weight:700}.action:hover{border-color:#cfc5f5;color:var(--primary);background:var(--violet-soft)}.action.remove{color:var(--muted)}.action.remove:hover{color:var(--danger);background:rgba(194,77,90,.08);border-color:rgba(194,77,90,.25)}
+.empty{grid-column:1/-1;padding:75px 20px;text-align:center;border:1px dashed var(--border);border-radius:17px;background:var(--surface)}.empty-icon{width:55px;height:55px;margin:0 auto 13px;display:grid;place-items:center;border-radius:15px;background:var(--violet-soft);color:var(--primary);font-size:16px}.empty h3{font-size:14px}.empty p{max-width:430px;margin:6px auto 0;color:var(--muted);font-size:10px;line-height:1.6}
+.toast{position:fixed;right:24px;bottom:24px;z-index:400;padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:var(--surface);box-shadow:var(--shadow);font-size:10px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1000px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){.sidebar{transform:translateX(-100%);box-shadow:var(--shadow)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobile-menu{display:grid}.overlay.show{display:block;position:fixed;inset:0;background:rgba(10,12,25,.35);z-index:95}.topbar{padding:0 16px}.top-user-name{display:none}.content{padding:24px 16px 40px}}
+@media(max-width:650px){.page-header{align-items:flex-start;flex-direction:column}.controls{flex-direction:column;align-items:stretch}.tabs{width:100%}.cards{grid-template-columns:1fr}.content{padding-left:13px;padding-right:13px}.top-user{display:none}}
+</style>
+</head>
+<body>
+<div class="overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+ <a class="brand" href="dashboard.html"><span class="brand-mark"><i class="fa-solid fa-layer-group"></i></span>StudyHub</a>
+ <div class="side-label">Workspace</div>
+ <nav class="nav" aria-label="Workspace navigation">
+  <a href="dashboard.html"><i class="fa-solid fa-chart-pie"></i>Dashboard</a>
+  <a href="documents.html"><i class="fa-regular fa-folder-open"></i>My Documents</a>
+  <a href="notes.html"><i class="fa-regular fa-note-sticky"></i>My Notes</a>
+  <a href="tasks.html"><i class="fa-regular fa-square-check"></i>Task Tracker</a>
+  <a href="calendar.html"><i class="fa-regular fa-calendar-days"></i>Calendar</a>
+  <a class="active" href="favorites.html"><i class="fa-regular fa-star"></i>Favorites</a>
+  <a href="search.html"><i class="fa-solid fa-magnifying-glass"></i>Search</a>
+ </nav>
+ <div class="sidebar-spacer"></div>
+ <div class="account">
+  <div class="side-label">Account</div>
+  <div class="user-mini"><div class="avatar" id="sideAvatar">AK</div><div><strong id="sideName">Alex Khan</strong><span>Student account</span></div></div>
+  <div class="account-links"><a class="account-link" href="profile.html"><i class="fa-regular fa-user"></i>Profile</a><a class="account-link" href="settings.html"><i class="fa-solid fa-gear"></i>Settings</a></div>
+ </div>
+</aside>
+
+<div class="main">
+<header class="topbar">
+ <button class="icon-btn mobile-menu" id="menuBtn" aria-label="Open sidebar"><i class="fa-solid fa-bars"></i></button>
+ <form class="top-search" id="globalSearchForm" action="search.html" method="get"><i class="fa-solid fa-magnifying-glass"></i><input name="q" id="globalSearch" type="search" placeholder="Search documents, notes, tasks..." autocomplete="off"></form>
+ <div class="top-actions">
+  <button class="icon-btn" id="notificationBtn" aria-label="View notifications" title="Notifications"><i class="fa-regular fa-bell"></i><span class="notification-dot" id="notificationDot"></span></button>
+  <button class="icon-btn" id="themeBtn" aria-label="Switch theme" title="Switch theme"><i class="fa-solid fa-moon"></i></button>
+  <a class="top-user" href="profile.html"><div class="avatar" id="topAvatar">AK</div><span class="top-user-name" id="topName">Alex Khan</span></a>
+ </div>
+</header>
+
+<main class="content">
+ <section class="page-header">
+  <div><div class="eyebrow">Your saved workspace</div><h1>Favorites</h1><p>Quick access to the things that matter most.</p></div>
+ </section>
+
+ <section class="controls">
+  <div class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="favoriteSearch" type="search" placeholder="Search favorites..."></div>
+  <div class="tabs" id="tabs">
+   <button class="tab active" data-tab="all">All</button><button class="tab" data-tab="documents">Documents</button><button class="tab" data-tab="notes">Notes</button><button class="tab" data-tab="tasks">Tasks</button>
+  </div>
+ </section>
+
+ <div class="result-row"><span><strong id="count">0</strong> favorites</span><span id="summary">Showing everything saved</span></div>
+ <section class="cards" id="cards" aria-live="polite"></section>
+</main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+ const $=id=>document.getElementById(id);
+ const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
+ const write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
+
+ // Shared StudyHub keys. Documents supports the key used by the documents page and
+ // a couple of common aliases so this page remains easy to integrate with existing builds.
+ const NOTE_KEY="studyhub-notes",TASK_KEY="studyhub-tasks";
+ const DOCUMENT_KEYS=["studyhub-documents","studyhub-docs","documents"];
+ let tab="all";
+
+ const profile=read("studyhub-user",{name:"Alex Khan"}),name=profile.name||"Alex Khan";
+ const initials=name.trim().split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase();
+ $("sideName").textContent=name;$("topName").textContent=name;$("sideAvatar").textContent=initials;$("topAvatar").textContent=initials;
+
+ // Theme is shared across every StudyHub page.
+ const root=document.documentElement,saved=localStorage.getItem("studyhub-theme");
+ if(saved==="dark"||(!saved&&matchMedia("(prefers-color-scheme: dark)").matches))root.classList.add("dark");
+ function themeUI(){const dark=root.classList.contains("dark");$("themeBtn").innerHTML=dark?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>';$("themeBtn").title=dark?"Switch to light mode":"Switch to dark mode"}
+ themeUI();
+ $("themeBtn").onclick=()=>{root.classList.toggle("dark");localStorage.setItem("studyhub-theme",root.classList.contains("dark")?"dark":"light");themeUI()};
+
+ function closeSidebar(){$("sidebar").classList.remove("open");$("overlay").classList.remove("show")}
+ $("menuBtn").onclick=()=>{$("sidebar").classList.add("open");$("overlay").classList.add("show")};$("overlay").onclick=closeSidebar;
+ $("globalSearchForm").onsubmit=e=>{if(!$("globalSearch").value.trim()){e.preventDefault();location.href="search.html"}};
+ $("notificationBtn").onclick=()=>{const all=collect().filter(x=>x.favorite).length;showToast(all?`${all} favorite item${all===1?"":"s"} saved in your workspace.`:"No favorites saved yet.");$("notificationDot").style.display="none";localStorage.setItem("studyhub-favorites-notifications-seen","true")};
+ if(localStorage.getItem("studyhub-favorites-notifications-seen")==="true")$("notificationDot").style.display="none";
+
+ function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+ function strip(html){const d=document.createElement("div");d.innerHTML=html||"";return d.textContent||""}
+ function formatDate(v){const d=new Date(v);return Number.isNaN(d.getTime())?String(v||"Unknown"):d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}
+ function dateOnly(v){if(!v)return null;const [y,m,d]=String(v).slice(0,10).split("-").map(Number);return new Date(y,m-1,d,12)}
+ function taskDue(v){const d=dateOnly(v),now=new Date();now.setHours(0,0,0,0);if(!d)return"";
+  const diff=Math.round((d-now)/86400000);if(diff<0)return"Overdue · "+d.toLocaleDateString(undefined,{month:"short",day:"numeric"});if(diff===0)return"Due today";if(diff===1)return"Due tomorrow";return"Due "+d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})
+ }
+
+ function loadDocuments(){
+   for(const key of DOCUMENT_KEYS){const data=read(key,null);if(Array.isArray(data))return data}
+   return [];
+ }
+ function collect(){
+   const docs=loadDocuments().map(d=>({...d,type:"document",favorite:!!(d.favorite??d.isFavorite),id:String(d.id??d.name??crypto.randomUUID())}));
+   const notes=read(NOTE_KEY,[]).map(n=>({...n,type:"note",favorite:!!n.favorite,id:String(n.id)}));
+   const tasks=read(TASK_KEY,[]).map(t=>({...t,type:"task",favorite:!!(t.favorite??t.isFavorite),id:String(t.id)}));
+   return [...docs,...notes,...tasks].filter(x=>x.favorite);
+ }
+ function titleOf(x){return x.type==="document"?(x.name||x.fileName||"Untitled document"):x.title||"Untitled"}
+ function previewOf(x){
+   if(x.type==="document")return `${x.fileType||x.typeLabel||"File"}${x.size?" · "+x.size:""}${x.uploadDate?" · Uploaded "+formatDate(x.uploadDate):x.createdAt?" · "+formatDate(x.createdAt):""}`;
+   if(x.type==="note")return strip(x.content)||"No preview available.";
+   return x.description||"Task deadline";
+ }
+ function metaOf(x){
+   if(x.type==="document")return x.uploadDate?`Uploaded ${formatDate(x.uploadDate)}`:(x.createdAt?formatDate(x.createdAt):"Saved document");
+   if(x.type==="note")return `Updated ${formatDate(x.updatedAt||x.createdAt)}`;
+   return taskDue(x.dueDate);
+ }
+
+ function render(){
+  const q=$("favoriteSearch").value.trim().toLowerCase();
+  let items=collect().filter(x=>tab==="all"||x.type===tab.slice(0,-1));
+  if(q)items=items.filter(x=>`${titleOf(x)} ${previewOf(x)} ${x.category||""} ${x.priority||""} ${x.fileType||""}`.toLowerCase().includes(q));
+  items.sort((a,b)=>new Date(b.updatedAt||b.createdAt||b.uploadDate||b.dueDate||0)-new Date(a.updatedAt||a.createdAt||a.uploadDate||a.dueDate||0));
+  $("count").textContent=items.length;$("summary").textContent=tab==="all"?"Showing everything saved":`Showing favorite ${tab}`;
+  if(!items.length){$("cards").innerHTML=`<div class="empty"><div class="empty-icon"><i class="fa-regular fa-star"></i></div><h3>No favorites here</h3><p>Favorite documents, notes, or tasks from their workspace pages and they will appear here automatically.</p></div>`;return}
+  $("cards").innerHTML=items.map(x=>{
+   const isDoc=x.type==="document",isNote=x.type==="note";
+   const icon=isDoc?"fa-file-lines":isNote?"fa-note-sticky":"fa-square-check";
+   const iconClass=isDoc?"document":isNote?"":"task";
+   const badge=isDoc?(x.fileType||"File"):isNote?(x.category||"Note"):(x.priority||"Medium");
+   const priorityClass=x.type==="task"?"priority-"+String(x.priority||"Medium").toLowerCase():"";
+   const openAction=isDoc?"Open document":isNote?"Open note":"Open task";
+   return `<article class="card" data-id="${esc(x.id)}" data-type="${x.type}">
+    <div class="card-head"><div class="type-icon ${iconClass}"><i class="fa-regular ${icon}"></i></div><button class="favorite-btn" data-action="remove" title="Remove favorite" aria-label="Remove favorite"><i class="fa-solid fa-star"></i></button></div>
+    <h3 title="${esc(titleOf(x))}">${esc(titleOf(x))}</h3>
+    <div class="preview">${esc(previewOf(x))}</div>
+    <div class="badges"><span class="badge ${priorityClass}">${esc(badge)}</span>${x.type==="document"&&x.fileType?`<span class="badge">${esc(x.fileType)}</span>`:""}</div>
+    <div class="card-meta"><i class="fa-regular fa-calendar"></i>${esc(metaOf(x))}</div>
+    <div class="card-actions">${x.type==="task"?`<button class="action" data-action="open"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open task</button>`:`<button class="action" data-action="open"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${openAction}</button>`}<button class="action remove" data-action="remove"><i class="fa-regular fa-star"></i> Remove</button></div>
+   </article>`;
+  }).join("");
+ }
+
+ function updateSourceFavorite(type,id){
+  if(type==="note"){const arr=read(NOTE_KEY,[]),n=arr.find(x=>String(x.id)===String(id));if(n){n.favorite=false;write(NOTE_KEY,arr);return true}}
+  if(type==="task"){const arr=read(TASK_KEY,[]),t=arr.find(x=>String(x.id)===String(id));if(t){if("favorite" in t)t.favorite=false;else t.isFavorite=false;write(TASK_KEY,arr);return true}}
+  if(type==="document"){
+   for(const key of DOCUMENT_KEYS){const arr=read(key,null);if(!Array.isArray(arr))continue;const d=arr.find(x=>String(x.id??x.name??x.fileName)===String(id));if(d){if("favorite" in d)d.favorite=false;else d.isFavorite=false;write(key,arr);return true}}
+  }
+  return false;
+ }
+ function openItem(type,id){
+  const qs=encodeURIComponent(id);
+  if(type==="document")location.href=`documents.html?id=${qs}`;
+  else if(type==="note")location.href=`notes.html?id=${qs}`;
+  else location.href=`tasks.html?id=${qs}`;
+ }
+
+ $("favoriteSearch").oninput=render;
+ $("tabs").onclick=e=>{const b=e.target.closest(".tab");if(!b)return;tab=b.dataset.tab;document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));render()};
+ $("cards").onclick=e=>{
+  const b=e.target.closest("[data-action]");if(!b)return;
+  const card=b.closest(".card"),id=card?.dataset.id,type=card?.dataset.type;if(!id||!type)return;
+  if(b.dataset.action==="remove"){if(updateSourceFavorite(type,id)){render();showToast("Removed from favorites.")}else showToast("Could not update this item.");}
+  if(b.dataset.action==="open")openItem(type,id);
+ };
+
+ // Listen for same-page changes from other StudyHub views when possible.
+ window.addEventListener("storage",e=>{if([NOTE_KEY,TASK_KEY,...DOCUMENT_KEYS].includes(e.key))render()});
+ render();
+
+ function showToast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove("show"),2600)}
+})();
+</script>
+</body>
+</html>
