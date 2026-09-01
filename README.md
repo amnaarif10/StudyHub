@@ -2,13 +2,14 @@
 
 > A clean, responsive, and all-in-one web portal designed to help students organize their study materials, access core learning modules, and track academic progress seamlessly.
 
-[![Live Demo](https://amnaarif10.github.io/StudyHub/)]
+🚀 **[Click Here to View Live Demo](https://amnaarif10.github.io/StudyHub/)**
 
 ---
 
 ## 📷 Preview & Screenshots
 
-![StudyHub Interface](../project/Gemini_Generated_Image_ujyxgfujyxgfujyx.jpeg)
+<img width="1451" height="720" alt="Gemini_Generated_Image_ujyxgfujyxgfujyx" src="https://github.com/user-attachments/assets/6c041f23-ec37-4886-863e-17df4e4f8439" />
+
 
 ---
 
