@@ -2,13 +2,13 @@
 
 > A clean, responsive, and all-in-one web portal designed to help students organize their study materials, access core learning modules, and track academic progress seamlessly.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo_Link-brightgreen?style=for-the-badge&logo=github)](https://amnaarif10.github.io/Final-Project/)
+[![Live Demo](https://amnaarif10.github.io/StudyHub/)]
 
 ---
 
 ## 📷 Preview & Screenshots
 
-![StudyHub Interface](https://via.placeholder.com/800x400.png?text=StudyHub+Dashboard+Preview)
+![StudyHub Interface](../project/Gemini_Generated_Image_ujyxgfujyxgfujyx.jpeg)
 
 ---
 
@@ -28,10 +28,5 @@
 - **Scripting:** JavaScript (DOM Manipulation, ES6+ features)
 - **Version Control & Hosting:** Git, GitHub, GitHub Pages
 
----
 
-## 🚀 How to Run Locally
 
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/amnaarif10/Final-Project.git](https://github.com/amnaarif10/Final-Project.git)
